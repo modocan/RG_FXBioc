@@ -9,6 +9,7 @@ package mediators {
 import com.hexagonstar.util.debug.Debug;
 
 import events.ControlEvent;
+import events.PreguntasEvent;
 
 import flash.events.Event;
 import flash.events.TimerEvent;
@@ -31,6 +32,8 @@ public class SeccionPreguntasMediator extends Mediator {
     {
         eventMap.mapListener(vista, Event.ADDED_TO_STAGE, init);
         eventMap.mapListener(eventDispatcher, ControlEvent.APAGAR, apaga);
+        eventMap.mapListener(eventDispatcher, PreguntasEvent.TIRADOR_VISIBLE, gestionaSlider);
+        eventMap.mapListener(eventDispatcher, PreguntasEvent.TIRADOR_OCULTO, gestionaSlider);
     }
 
 
@@ -40,8 +43,6 @@ public class SeccionPreguntasMediator extends Mediator {
         evento.quien = vista.name;
         eventDispatcher.dispatchEvent(evento);
     }
-
-
 
 
 
@@ -58,6 +59,20 @@ public class SeccionPreguntasMediator extends Mediator {
     private function borra(e:TimerEvent):void
     {
         contextView.removeChild(contextView.getChildByName(vista.name));
+    }
+
+
+    private function gestionaSlider(e:PreguntasEvent):void
+    {
+        var gestion:Boolean;
+        
+        if(e.type == PreguntasEvent.TIRADOR_OCULTO){
+           gestion = false;
+        } else {
+            gestion = true;
+        }
+        
+        vista.gestionaSlider(gestion);
     }
 
 }

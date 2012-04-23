@@ -6,6 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 package assets.clases {
+import com.greensock.TweenLite;
+import com.hexagonstar.util.debug.Debug;
+
 import flash.display.Bitmap;
 import flash.display.Loader;
 import flash.display.MovieClip;
@@ -25,6 +28,8 @@ public class ItemLuminaria extends Sprite {
     public function ItemLuminaria() {
         this.buttonMode = true;
         _this = this;
+        _this.visible = false;
+        _this.alpha = 0;
         super();
     }
 
@@ -36,7 +41,7 @@ public class ItemLuminaria extends Sprite {
         cargador = new Loader();
         cargador.contentLoaderInfo.addEventListener(Event.COMPLETE, fotoCargada);
         cargador.load(new URLRequest(ruta));
-        addChild(cargador)
+        addChild(cargador);
     }
 
     private function fotoCargada(e:Event):void
@@ -48,6 +53,9 @@ public class ItemLuminaria extends Sprite {
         cargador.mask = _this.mascara;
         cargador.x = -(cargador.width/2);
         cargador.y = -(cargador.height/2);
+        
+        _this.visible = true;
+        TweenLite.to(_this, 0.5, {alpha: 1});
     }
 
     public function get datos():Object {

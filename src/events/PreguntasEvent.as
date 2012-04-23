@@ -17,6 +17,8 @@ public class PreguntasEvent extends Event {
     public static const LUMINARIAS_RECIBIDAS:String = 'PreguntasEvent.LUMINARIAS_RECIBIDAS';
     public static const TIRADOR_VISIBLE:String = 'PreguntasEvent.TIRADOR_VISIBLE';
     public static const TIRADOR_OCULTO:String = 'PreguntasEvent.TIRADOR_OCULTO';
+    public static const TIRADOR_MOV:String = 'PreguntasEvent.TIRADOR_MOV';
+    public static const TIRADOR_INVERSO:String = 'PreguntasEvent.TIRADOR_INVERSO';
 
     private var _datos:Object = new Object();
 

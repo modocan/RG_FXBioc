@@ -6,6 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 package views {
+import com.greensock.TweenLite;
+import com.greensock.easing.Circ;
 import com.hexagonstar.util.debug.Debug;
 
 import events.PreguntasEvent;
@@ -20,6 +22,7 @@ public class LuminariasView extends Sprite {
     private var mascara:MascaraLuminarias;
     private var lumis:Object;
     private var _this:LuminariasView;
+    private var screen_anterior:Number = 0;
 
 
     public function LuminariasView() {
@@ -44,6 +47,7 @@ public class LuminariasView extends Sprite {
         Debug.trace('[Mi posicion] -> ' + this.x, Debug.LEVEL_ERROR);
 
         contenedor = new Sprite();
+        contenedor.name = 'contenedor';
         contenedor.cacheAsBitmap = true;
         contenedor.addEventListener(Event.ADDED_TO_STAGE, cont);
         addChild(contenedor);
@@ -64,6 +68,7 @@ public class LuminariasView extends Sprite {
 
                 luminaria = new Luminaria();
                 luminaria.clip.init(lumis[i], ruta_lumi);
+                //luminaria.alpha = 0;
                 luminaria.name = String(i);
                 if(i > 0){
                    luminaria.x = (luminaria.width + luminaria.width/2) + (luminaria.width * i) + (Math.random() * 20);
@@ -93,6 +98,13 @@ public class LuminariasView extends Sprite {
         }
 
     }
+
+
+    public function mueveLuminarias(movimiento:Number = 0):void
+    {
+        var recorrido:Number = ((contenedor.width - mascara.width) * movimiento) / 100;
+        TweenLite.to(contenedor, 0.7, {x: -recorrido, ease: Circ.easeOut});
+    }
     
     
     
@@ -109,6 +121,20 @@ public class LuminariasView extends Sprite {
                 _this.dispatchEvent(new PreguntasEvent(PreguntasEvent.TIRADOR_VISIBLE)) ;
             }
         }
+        
+        if(_this.getChildByName('contenedor') && _this.getChildByName('contenedor').x < 0)
+        {
+            if(_this.stage.stageWidth > screen_anterior)
+            {
+                contenedor.x += _this.stage.stageWidth - screen_anterior;
+                var porcentaje_nuevo:Number = (((contenedor.width - mascara.width) - Math.abs(contenedor.x)) * 100) / (contenedor.width - mascara.width);
+                var evento:PreguntasEvent = new PreguntasEvent(PreguntasEvent.TIRADOR_INVERSO);
+                evento.datos.movimiento = porcentaje_nuevo;
+                _this.dispatchEvent(evento);
+            }
+        }
+
+        screen_anterior = _this.stage.stageWidth;
     }
 
 

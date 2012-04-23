@@ -6,6 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 package mediators {
+import com.hexagonstar.util.debug.Debug;
+
 import events.PreguntasEvent;
 
 import flash.events.Event;
@@ -29,6 +31,8 @@ public class LuminariasMediator extends Mediator {
         eventMap.mapListener(eventDispatcher, PreguntasEvent.LUMINARIAS_RECIBIDAS, lumis);
         eventMap.mapListener(vista, PreguntasEvent.TIRADOR_OCULTO, proporcion);
         eventMap.mapListener(vista, PreguntasEvent.TIRADOR_VISIBLE, proporcion);
+        eventMap.mapListener(eventDispatcher, PreguntasEvent.TIRADOR_MOV, movimiento);
+        eventMap.mapListener(vista, PreguntasEvent.TIRADOR_INVERSO, movimientoInverso);
         eventMap.mapListener(vista, Event.ADDED_TO_STAGE, init);
     }
 
@@ -54,6 +58,19 @@ public class LuminariasMediator extends Mediator {
         } else {
             eventDispatcher.dispatchEvent(new PreguntasEvent(PreguntasEvent.TIRADOR_VISIBLE));
         }
+    }
+
+
+    private function movimiento(e:PreguntasEvent):void
+    {
+        vista.mueveLuminarias(e.datos.movimiento);
+    }
+    
+    private function movimientoInverso(e:PreguntasEvent):void
+    {
+        var evento:PreguntasEvent = new PreguntasEvent(PreguntasEvent.TIRADOR_INVERSO);
+        evento.datos.movimiento = e.datos.movimiento;
+        eventDispatcher.dispatchEvent(evento);
     }
 
 }
