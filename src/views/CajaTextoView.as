@@ -6,6 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package views {
+import com.greensock.TweenLite;
 import com.hexagonstar.util.debug.Debug;
 
 import events.PreguntasEvent;
@@ -26,28 +27,8 @@ public class CajaTextoView extends Sprite {
 
     private const TEXTO_ENVIO:String = 'INTRODUCE TU PREGUNTA';
 
-    public function CajaTextoView(datos:Object) {
-
-        usuario = new Object();
-        usuario = datos;
-
+    public function CajaTextoView() {
         _this = this;
-
-        this.addEventListener(Event.ADDED_TO_STAGE, init);
-
-    }
-
-
-    private function init(e:Event):void
-    {
-        this.removeEventListener(Event.ADDED_TO_STAGE, init);
-
-        pintaEscribir();
-    }
-
-
-    private function pintaEscribir():void
-    {
         clip = new CajaTexto();
         clip.cerrar.visible = false;
         clip.texto_txt.selectable = true;
@@ -58,12 +39,25 @@ public class CajaTextoView extends Sprite {
         clip.enviar.addEventListener(MouseEvent.CLICK, clicEnvio);
         clip.cerrar.addEventListener(MouseEvent.CLICK, clicCerrar);
         clip.texto_txt.addEventListener(MouseEvent.CLICK, clicTexto);
-        clip.addEventListener(Event.ADDED_TO_STAGE, addClip);
         addChild(clip);
-
     }
 
-    private function addClip(e:Event):void
+
+    public function init(datos:Object):void
+    {
+        usuario = new Object();
+        usuario = datos;
+    }
+
+    public function reinicia():void
+    {
+        clip.cerrar.visible = false;
+        clip.texto_txt.selectable = true;
+        clip.texto_txt.text = TEXTO_ENVIO;
+        clip.enviar.visible = true;
+    }
+
+    private function addClip():void
     {
         clip.removeEventListener(Event.ADDED_TO_STAGE, addClip);
 
@@ -71,7 +65,6 @@ public class CajaTextoView extends Sprite {
         foto.name = 'cargador';
         foto.contentLoaderInfo.addEventListener(Event.COMPLETE, fotoCargada);
         foto.load(new URLRequest('http://graph.facebook.com/' + usuario.id + '/picture?type=large'));
-
     }
 
 
@@ -136,7 +129,10 @@ public class CajaTextoView extends Sprite {
 
     private function clicCerrar(e:MouseEvent):void
     {
-
+        TweenLite.to(_this,  0.4, {alpha: 0, onComplete: function(){
+            _this.visible = false;
+            _this.dispatchEvent(new PreguntasEvent(PreguntasEvent.TEXTO_CERRADO));
+        }});
     }
 
 
@@ -144,15 +140,50 @@ public class CajaTextoView extends Sprite {
     {
         clip.cerrar.visible = false;
         clip.texto_txt.selectable = true;
+        clip.texto_txt.text = TEXTO_ENVIO;
         clip.enviar.visible = true;
     }
 
 
-    public function cambiaLeer():void
+    public function cambiaLeer(_datos:Object):void
     {
-        clip.cerrar.visible = true;
-        clip.texto_txt.selectable = false;
-        clip.enviar.visible = false;
+        if(_this.visible){
+            TweenLite.to(_this, 0.4, {alpha: 0, onComplete: function(){
+                pinta();
+            }});            
+        } else {
+            pinta();
+        }
+
+        function pinta():void
+        {
+            clip.cerrar.visible = true;
+            clip.texto_txt.selectable = false;
+            clip.enviar.visible = false;
+
+            clip.nombre_txt.text = _datos.nombre + ' ' + _datos.apellidos;
+            clip.texto_txt.text = _datos.pregunta as String;
+            
+            if(clip.foto.getChildByName('cargador'))
+            {
+                clip.foto.removeChild(clip.foto.getChildByName('cargador'));
+            }
+
+            foto = new Loader();
+            foto.name = 'cargador';
+            foto.contentLoaderInfo.addEventListener(Event.COMPLETE, fotoCargada);
+            if(_datos.red_social == 0)
+            {
+                foto.load(new URLRequest('http://graph.facebook.com/' + _datos.id_social + '/picture?type=large'));
+            } else {
+                // TODO pintar la foto de Twitter
+            }
+            
+            _this.visible = true;
+            TweenLite.to(_this,  0.4, {alpha: 1});
+
+        }
+
     }
 
 }

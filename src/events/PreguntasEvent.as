@@ -19,6 +19,8 @@ public class PreguntasEvent extends Event {
     public static const TIRADOR_OCULTO:String = 'PreguntasEvent.TIRADOR_OCULTO';
     public static const TIRADOR_MOV:String = 'PreguntasEvent.TIRADOR_MOV';
     public static const TIRADOR_INVERSO:String = 'PreguntasEvent.TIRADOR_INVERSO';
+    public static const PREGUNTA_ELEGIDA:String = 'PreguntasEvent.PREGUNTA_ELEGIDA';
+    public static const TEXTO_CERRADO:String = 'PreguntasEvent.TEXTO_CERRADO';
 
     private var _datos:Object = new Object();
 

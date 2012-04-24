@@ -8,6 +8,7 @@
 package views {
 import com.greensock.TweenLite;
 import com.hexagonstar.util.debug.Debug;
+import com.hexagonstar.util.debug.Debug;
 
 import events.PreguntasEvent;
 
@@ -62,14 +63,22 @@ public class CajaLoginView extends Sprite {
             _this.dispatchEvent(evento);
         });
         addChild(login);
+
+        caja_texto = new CajaTextoView();
+        caja_texto.visible = false;
+        caja_texto.alpha = 0;
+        caja_texto.y = titulo.y + titulo.height + 15;
+        caja_texto.addEventListener(Event.ADDED_TO_STAGE, function(e:Event){
+            caja_texto.x = (titulo.x + (titulo.width/2)) - (caja_texto.width/2);
+        });
+        addChild(caja_texto);
     }
 
 
-    public function ocultaLogin(datos:Object):void
+    public function ocultaLogin():void
     {
         TweenLite.to(login,  0.4, {alpha: 0, onComplete:function(){
             login.visible = false;
-
         }});
     }
 
@@ -83,12 +92,10 @@ public class CajaLoginView extends Sprite {
 
     public function pintaCaja(datos:Object):void
     {
-        caja_texto = new CajaTextoView(datos);
-        caja_texto.y = titulo.y + titulo.height + 15;
-        caja_texto.addEventListener(Event.ADDED_TO_STAGE, function(e:Event){
-            caja_texto.x = (titulo.x + (titulo.width/2)) - (caja_texto.width/2);
-        })  ;
-        addChild(caja_texto);
+        caja_texto.init(datos);
+        caja_texto.visible = true;
+        caja_texto.reinicia();
+        TweenLite.to(caja_texto, 0.5, {alpha: 1});
     }
 
 
@@ -104,7 +111,8 @@ public class CajaLoginView extends Sprite {
 
         function pinta():void
         {
-            _this.removeChild(caja_texto);
+           // _this.removeChild(caja_texto);
+            caja_texto.visible = false;
 
             caja_respuesta = new RespuestaView();
             caja_respuesta.y =  titulo.y + titulo.height + 15;

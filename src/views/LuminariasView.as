@@ -14,6 +14,7 @@ import events.PreguntasEvent;
 
 import flash.display.Sprite;
 import flash.events.Event;
+import flash.events.MouseEvent;
 
 public class LuminariasView extends Sprite {
 
@@ -23,6 +24,8 @@ public class LuminariasView extends Sprite {
     private var lumis:Object;
     private var _this:LuminariasView;
     private var screen_anterior:Number = 0;
+
+    public var lumi_seleccion:Luminaria;
 
 
     public function LuminariasView() {
@@ -59,16 +62,14 @@ public class LuminariasView extends Sprite {
             var ruta_lumi:String;
             for(var i:int = 0; i < lumis.length; i++)
             {
-                // TODO pasar datos cuando no es FB (!=0)
                 if(lumis[i].red_social == 0){
                      ruta_lumi = 'http://graph.facebook.com/' + lumis[i].id_social + '/picture';
                 }  else {
-
+                    // TODO pasar datos cuando no es FB (!=0)
                 }
 
                 luminaria = new Luminaria();
                 luminaria.clip.init(lumis[i], ruta_lumi);
-                //luminaria.alpha = 0;
                 luminaria.name = String(i);
                 if(i > 0){
                    luminaria.x = (luminaria.width + luminaria.width/2) + (luminaria.width * i) + (Math.random() * 20);
@@ -77,7 +78,7 @@ public class LuminariasView extends Sprite {
                 }
                 luminaria.y = Math.random() * 300;
                 luminaria.gotoAndStop(Math.round(Math.random() * (luminaria.totalFrames - 1)));
-                // TODO registrar el click de la Luminaria
+                luminaria.addEventListener(MouseEvent.CLICK, clicLuminaria);
                 luminaria.addEventListener(Event.ADDED_TO_STAGE, function(e:Event){
                     Luminaria(e.currentTarget).play();
                 });
@@ -96,6 +97,17 @@ public class LuminariasView extends Sprite {
             });
             addChild(mascara);
         }
+
+    }
+
+
+    private function clicLuminaria(e:MouseEvent):void
+    {
+        lumi_seleccion = Luminaria(e.currentTarget);
+        //lumi_seleccion.stop();
+        lumi_seleccion.alpha = 0.2;
+
+        _this.dispatchEvent(new PreguntasEvent(PreguntasEvent.PREGUNTA_ELEGIDA));
 
     }
 

@@ -33,6 +33,8 @@ public class CajaLoginMediator extends Mediator {
         eventMap.mapListener(eventDispatcher, ControlEvent.LOADER_LOGIN, ocultaLogin);
         eventMap.mapListener(eventDispatcher, ControlEvent.FIN_LOADER_LOGIN, muestraCaja);
         eventMap.mapListener(eventDispatcher, PreguntasEvent.PREGUNTA_REGISTRADA, preguntaRegistrada);
+        eventMap.mapListener(eventDispatcher, PreguntasEvent.PREGUNTA_ELEGIDA, ocultaLogin);
+        eventMap.mapListener(eventDispatcher, PreguntasEvent.TEXTO_CERRADO, volverLogin);
     }
 
 
@@ -56,9 +58,9 @@ public class CajaLoginMediator extends Mediator {
     }
 
 
-    private function ocultaLogin(e:ControlEvent):void
+    private function ocultaLogin(e:*):void
     {
-        vista.ocultaLogin(e.datos);
+        vista.ocultaLogin();
     }
 
 
@@ -66,6 +68,13 @@ public class CajaLoginMediator extends Mediator {
     {
         vista.pintaCaja(e.datos.usuario);
     }
+
+
+    private function volverLogin(e:PreguntasEvent):void
+    {
+        vista.apareceLogin();
+    }
+
 
 }
 }

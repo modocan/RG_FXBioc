@@ -26,7 +26,9 @@ public class CajaTextoMediator extends Mediator {
 
     override public function onRegister():void
     {
-        eventMap.mapListener(vista, PreguntasEvent.ENVIA_PREGUNTA, enviaPregunta)
+        eventMap.mapListener(vista, PreguntasEvent.ENVIA_PREGUNTA, enviaPregunta);
+        eventMap.mapListener(eventDispatcher, PreguntasEvent.PREGUNTA_ELEGIDA, pintaElegida);
+        eventMap.mapListener(vista, PreguntasEvent.TEXTO_CERRADO, textoCerrado);
     }
 
 
@@ -37,6 +39,18 @@ public class CajaTextoMediator extends Mediator {
         var evento:PreguntasEvent = new PreguntasEvent(PreguntasEvent.ENVIA_PREGUNTA);
         evento.datos.pregunta = e.datos.pregunta;
         eventDispatcher.dispatchEvent(evento);
+    }
+    
+    
+    private function pintaElegida(e:PreguntasEvent):void
+    {
+        vista.cambiaLeer(e.datos);
+    }
+
+
+    private function textoCerrado(e:PreguntasEvent):void
+    {
+        eventDispatcher.dispatchEvent(new PreguntasEvent(PreguntasEvent.TEXTO_CERRADO));
     }
 
 

@@ -50,10 +50,6 @@ public class SlideLuminaria extends Sprite
 
     public function mueveInverso(movimiento:Number = 0):void
     {
-        trace('[POSICION] -> ' + (barra.width * movimiento) / 100);
-        trace('[PORCENTAJE] -> ' + movimiento);
-        trace('---------------------------------');
-        
         tirador.x = barra.width - (barra.width * movimiento) / 100;
     }
 }

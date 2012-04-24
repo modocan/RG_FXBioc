@@ -34,6 +34,7 @@ public class LuminariasMediator extends Mediator {
         eventMap.mapListener(eventDispatcher, PreguntasEvent.TIRADOR_MOV, movimiento);
         eventMap.mapListener(vista, PreguntasEvent.TIRADOR_INVERSO, movimientoInverso);
         eventMap.mapListener(vista, Event.ADDED_TO_STAGE, init);
+        eventMap.mapListener(vista, PreguntasEvent.PREGUNTA_ELEGIDA, elegida);
     }
 
 
@@ -60,6 +61,13 @@ public class LuminariasMediator extends Mediator {
         }
     }
 
+    private function elegida(e:PreguntasEvent):void
+    {
+        var evento:PreguntasEvent = new PreguntasEvent(PreguntasEvent.PREGUNTA_ELEGIDA);
+        evento.datos = vista.lumi_seleccion.clip.datos;
+        eventDispatcher.dispatchEvent(evento);
+
+    }
 
     private function movimiento(e:PreguntasEvent):void
     {
