@@ -21,6 +21,8 @@ public class PreguntasEvent extends Event {
     public static const TIRADOR_INVERSO:String = 'PreguntasEvent.TIRADOR_INVERSO';
     public static const PREGUNTA_ELEGIDA:String = 'PreguntasEvent.PREGUNTA_ELEGIDA';
     public static const TEXTO_CERRADO:String = 'PreguntasEvent.TEXTO_CERRADO';
+    public static const PIN_TWT:String = 'PreguntasEvent.PIN_TWT';
+    public static const ESCRIBE_PIN:String = 'PreguntasEvent.ESCRIBE_PIN';
 
     private var _datos:Object = new Object();
 

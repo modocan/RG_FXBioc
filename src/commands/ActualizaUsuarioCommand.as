@@ -29,7 +29,8 @@ public class ActualizaUsuarioCommand extends Command {
 
     override public function execute():void
     {
-        modelo.usuarioLogin(ev.datos);
+        Debug.traceObj(Object(ev.datos.usuario));
+        modelo.usuarioLogin(ev.datos.usuario);
     }
 
 }

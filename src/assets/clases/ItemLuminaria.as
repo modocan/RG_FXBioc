@@ -15,8 +15,9 @@ import flash.display.MovieClip;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.net.URLRequest;
+import flash.system.Security;
 
-public class ItemLuminaria extends Sprite {
+public class ItemLuminaria extends MovieClip {
 
     private var cargador:Loader;
     private var _datos:Object = new Object();
@@ -26,6 +27,9 @@ public class ItemLuminaria extends Sprite {
     public var mascara:MovieClip;
 
     public function ItemLuminaria() {
+
+        Security.loadPolicyFile('http://a0.twimg.com/crossdomain.xml');
+
         this.buttonMode = true;
         _this = this;
         _this.visible = false;
@@ -48,7 +52,22 @@ public class ItemLuminaria extends Sprite {
     {
         Bitmap(e.currentTarget.content).smoothing = true;
 
-        // TODO ajustar el tamaño de la foto
+        var stageAspectRatio = mascara.width / mascara.height;
+        var imageAspectRatio = cargador.width / cargador.height;
+
+        if (stageAspectRatio >= imageAspectRatio)
+        {
+            cargador.width = mascara.width;
+            cargador.height = mascara.width / imageAspectRatio;
+        }
+        else
+        {
+            cargador.height = mascara.height;
+            cargador.width = mascara.height * imageAspectRatio;
+        }
+
+        cargador.x = (mascara.width/2);
+        cargador.y = mascara.height/2;
 
         cargador.mask = _this.mascara;
         cargador.x = -(cargador.width/2);

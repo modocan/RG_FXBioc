@@ -32,8 +32,6 @@ public class EnviarPreguntaCommand extends Command {
 
     override public function execute():void
     {
-        Debug.trace('[command]');
-
         preguntas.enviaPregunta(Object(datosMain.dameUsuarioLogin()), String(ev.datos.pregunta));
     }
 

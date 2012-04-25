@@ -103,6 +103,41 @@ public class MainView extends Sprite {
             removeChild(login_loader);
         }});
     }
+    
+    
+    public function oculta():void
+    {
+        TweenLite.to(social, 0.4, {alpha: 0, onComplete:function(){
+            social.visible = false;
+        }});
+
+        TweenLite.to(logo, 0.4, {alpha: 0, onComplete:function(){
+            logo.visible = false;
+        }});
+
+        TweenLite.to(logo_flex, 0.4, {alpha: 0, onComplete:function(){
+            logo_flex.visible = false;
+        }});
+
+        TweenLite.to(menu, 0.4, {alpha: 0, onComplete:function(){
+            menu.visible = false;
+        }});
+    }
+
+    public function muestrate():void
+    {
+        social.visible = true;
+        TweenLite.to(social, 0.4, {alpha: 1});
+
+        logo.visible = true;
+        TweenLite.to(logo, 0.4, {alpha: 1});
+
+        logo_flex.visible = true;
+        TweenLite.to(logo_flex, 0.4, {alpha: 1});
+
+        menu.visible = true;
+        TweenLite.to(menu, 0.4, {alpha: 1});
+    }
 
 
 

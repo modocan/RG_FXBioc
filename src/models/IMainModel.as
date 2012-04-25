@@ -14,5 +14,7 @@ public interface IMainModel {
 
     function dameUsuarioLogin():Object
 
+    function dameVideoSpot():String
+
 }
 }

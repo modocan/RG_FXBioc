@@ -32,16 +32,15 @@ public class PreguntasModel extends Actor implements IPreguntasModel {
         Debug.trace('[model]');
 
         var envio:Object = new Object();
-
-        if(usuario.tipo == 'fb'){
-            envio.nombre = usuario.usuario.first_name;
-            envio.apellidos = usuario.usuario.last_name;
-            envio.pregunta = pregunta;
-            envio.id_social = usuario.usuario.id;
-            envio.red_social = 0;
-            envio.aprobado = 0;
-            envio.seleccionado = 0;
-        }
+        envio.nombre = usuario.nombre;
+        envio.apellidos = usuario.apellidos;
+        envio.pregunta = pregunta;
+        envio.id_social = usuario.id;
+        envio.foto = usuario.foto;
+        envio.red_social = usuario.red_social;
+        envio.aprobado = 0;
+        envio.seleccionado = 0;
+        envio.ciudad = usuario.ciudad;
 
         Debug.traceObj(usuario);
         Debug.inspect(envio);

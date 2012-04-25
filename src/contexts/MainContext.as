@@ -13,6 +13,7 @@ import commands.EnviarPreguntaCommand;
 import commands.LoginCommand;
 import commands.LuminariasCommand;
 import commands.PideMenuCommand;
+import commands.PinCommand;
 import commands.SubeMarcoCommand;
 
 import events.ControlEvent;
@@ -31,14 +32,17 @@ import mediators.MenuMediator;
 import mediators.RespuestaMediator;
 import mediators.SeccionPreguntasMediator;
 import mediators.SeccionProductoMediator;
+import mediators.SeccionSpotMediator;
 import mediators.SlideMediator;
 import mediators.SocialLinksMediator;
 
 
 import models.IMainModel;
 import models.IPreguntasModel;
+import models.ITWTConnection;
 import models.MainModel;
 import models.PreguntasModel;
+import models.TWTConnection;
 
 import org.robotlegs.base.ContextEvent;
 import org.robotlegs.mvcs.Context;
@@ -56,6 +60,7 @@ import views.MenuView;
 import views.RespuestaView;
 import views.SeccionPreguntaView;
 import views.SeccionProductoView;
+import views.SeccionSpotView;
 import views.SlideView;
 import views.SocialLinksView;
 
@@ -87,6 +92,7 @@ public class MainContext extends Context {
         commandMap.mapEvent(PreguntasEvent.ENVIA_PREGUNTA, EnviarPreguntaCommand, PreguntasEvent);
         commandMap.mapEvent(ControlEvent.ACTUALIZA_USUARIO, ActualizaUsuarioCommand, ControlEvent);
         commandMap.mapEvent(PreguntasEvent.PIDE_LUMINARIAS, LuminariasCommand, PreguntasEvent);
+        commandMap.mapEvent(PreguntasEvent.ESCRIBE_PIN, PinCommand, PreguntasEvent);
     }
 
 
@@ -94,6 +100,7 @@ public class MainContext extends Context {
     {
         injector.mapSingletonOf(IMainModel, MainModel);
         injector.mapSingletonOf(IFBConnection, FBConnection);
+        injector.mapSingletonOf(ITWTConnection, TWTConnection);
         injector.mapSingletonOf(IPreguntasModel, PreguntasModel);
     }
 
@@ -109,6 +116,7 @@ public class MainContext extends Context {
         mediatorMap.mapView(RespuestaView, RespuestaMediator);
         mediatorMap.mapView(LuminariasView, LuminariasMediator);
         mediatorMap.mapView(SlideView, SlideMediator);
+        mediatorMap.mapView(SeccionSpotView, SeccionSpotMediator);
     }
 
 

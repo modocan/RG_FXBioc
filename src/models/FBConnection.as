@@ -35,7 +35,7 @@ public class FBConnection extends Actor implements IFBConnection {
     {
         eventDispatcher.dispatchEvent(new ControlEvent(ControlEvent.LOADER_LOGIN));
         Facebook.init(APP_ID, respInit);
-        Facebook.login(handleLogin, {perms: 'publish_stream'});
+        Facebook.login(handleLogin, {perms: 'publish_stream, user_hometown'});
 
     }
 
@@ -60,10 +60,17 @@ public class FBConnection extends Actor implements IFBConnection {
             Facebook.api('me', function(success:Object, fail:Object){
                 if(success){
                    usuario = new Object();
-                   usuario = success;
+                   usuario.nombre = success.first_name;
+                   usuario.apellidos = success.last_name;
+                   usuario.id = success.id;
+                   usuario.ciudad = Array(String(success.hometown.name).split(','))[0][0];
+                   usuario.red_social = 0;
+                   usuario.aprobado = 0;
+                   usuario.seleccionado = 0;
+                   usuario.foto = 'http://graph.facebook.com/' + success.id + '/picture?type=large';
+
                    var evento:ControlEvent = new ControlEvent(ControlEvent.ACTUALIZA_USUARIO);
                    evento.datos.usuario = usuario;
-                   evento.datos.tipo = 'fb';
                    eventDispatcher.dispatchEvent(evento);
                 }
             });

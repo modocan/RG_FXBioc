@@ -13,8 +13,9 @@ import org.robotlegs.mvcs.Actor;
 
 public class MainModel extends Actor implements IMainModel {
 
-    private var seccionesFase1:Array = ['INICIO', 'TOUR FLEX', 'PREGUNTA A CONTADOR', 'PRODUCTO'];
+    private var seccionesFase1:Array = ['INICIO', 'SPOT', 'PREGUNTA A CONTADOR', 'PRODUCTO'];
     private var _usuarioLogin:Object = new Object();
+    private var video_spot:String = 'rZPAWyPO2vQ';
 
     public function MainModel() {
         super();
@@ -36,6 +37,11 @@ public class MainModel extends Actor implements IMainModel {
         var evento:ControlEvent = new ControlEvent(ControlEvent.FIN_LOADER_LOGIN);
         evento.datos = _usuarioLogin;
         eventDispatcher.dispatchEvent(evento);
+    }
+
+    public function dameVideoSpot():String
+    {
+        return video_spot;
     }
 }
 }

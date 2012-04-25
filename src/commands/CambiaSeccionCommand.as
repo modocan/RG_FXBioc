@@ -13,15 +13,21 @@ import events.MenuEvent;
 
 import flash.display.Sprite;
 
+import models.IMainModel;
+
 import org.robotlegs.mvcs.Command;
 
 import views.SeccionPreguntaView;
 import views.SeccionProductoView;
+import views.SeccionSpotView;
 
 public class CambiaSeccionCommand extends Command {
 
     [Inject]
     public var ev:MenuEvent;
+
+    [Inject]
+    public var modelo:IMainModel;
 
     public function CambiaSeccionCommand() {
         super();
@@ -42,7 +48,8 @@ public class CambiaSeccionCommand extends Command {
                 contextView.addChild(new SeccionProductoView(ev.quien));
                 break;
 
-            case 'TOUR FLEX':
+            case 'SPOT':
+                contextView.addChild(new SeccionSpotView(ev.quien, modelo.dameVideoSpot()));
                 break;
 
             case 'INICIO':

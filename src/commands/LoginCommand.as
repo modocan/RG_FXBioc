@@ -11,6 +11,7 @@ import com.hexagonstar.util.debug.Debug;
 import events.PreguntasEvent;
 
 import models.IFBConnection;
+import models.ITWTConnection;
 
 import org.robotlegs.mvcs.Command;
 
@@ -21,6 +22,9 @@ public class LoginCommand extends Command {
 
     [Inject]
     public var fb:IFBConnection;
+    
+    [Inject]
+    public var twt:ITWTConnection;
 
     public function LoginCommand() {
         super();
@@ -33,6 +37,10 @@ public class LoginCommand extends Command {
         if(e.datos.tipo == 'fb')
         {
             fb.init();
+        } else {
+            
+            twt.init();
+
         }
     }
 

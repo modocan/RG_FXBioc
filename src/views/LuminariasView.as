@@ -12,6 +12,8 @@ import com.hexagonstar.util.debug.Debug;
 
 import events.PreguntasEvent;
 
+import flash.display.MovieClip;
+
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
@@ -49,7 +51,7 @@ public class LuminariasView extends Sprite {
         Debug.trace('[Ancho Escenario] -> ' + this.stage.stageWidth, Debug.LEVEL_ERROR);
         Debug.trace('[Mi posicion] -> ' + this.x, Debug.LEVEL_ERROR);
 
-        contenedor = new Sprite();
+        contenedor = new MovieClip();
         contenedor.name = 'contenedor';
         contenedor.cacheAsBitmap = true;
         contenedor.addEventListener(Event.ADDED_TO_STAGE, cont);
@@ -59,14 +61,12 @@ public class LuminariasView extends Sprite {
         {
             contenedor.removeEventListener(Event.ADDED_TO_STAGE, cont);
 
+            Debug.inspect(lumis);
+
             var ruta_lumi:String;
             for(var i:int = 0; i < lumis.length; i++)
             {
-                if(lumis[i].red_social == 0){
-                     ruta_lumi = 'http://graph.facebook.com/' + lumis[i].id_social + '/picture';
-                }  else {
-                    // TODO pasar datos cuando no es FB (!=0)
-                }
+                ruta_lumi = lumis[i].foto;
 
                 luminaria = new Luminaria();
                 luminaria.clip.init(lumis[i], ruta_lumi);
@@ -77,10 +77,11 @@ public class LuminariasView extends Sprite {
                     luminaria.x = luminaria.width;
                 }
                 luminaria.y = Math.random() * 300;
-                luminaria.gotoAndStop(Math.round(Math.random() * (luminaria.totalFrames - 1)));
+                Debug.trace('[FRAMES] -> ' + luminaria.totalFrames);
+                //luminaria.gotoAndStop(Math.round(Math.random() * (luminaria.totalFrames - 1)));
                 luminaria.addEventListener(MouseEvent.CLICK, clicLuminaria);
                 luminaria.addEventListener(Event.ADDED_TO_STAGE, function(e:Event){
-                    Luminaria(e.currentTarget).play();
+                    //Luminaria(e.currentTarget).play();
                 });
                 ajusta();
                 contenedor.addChild(luminaria);

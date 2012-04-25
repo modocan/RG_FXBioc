@@ -51,20 +51,26 @@ public class CajaTextoView extends Sprite {
 
     public function reinicia():void
     {
+        Debug.inspect(usuario);
+
         clip.cerrar.visible = false;
+        clip.nombre_txt.text = usuario.nombre + ' ' + usuario.apellidos;
         clip.texto_txt.selectable = true;
         clip.texto_txt.text = TEXTO_ENVIO;
+        clip.ciudad_txt.text = usuario.ciudad;
         clip.enviar.visible = true;
+
+        addClip();
     }
 
     private function addClip():void
     {
-        clip.removeEventListener(Event.ADDED_TO_STAGE, addClip);
+        //clip.removeEventListener(Event.ADDED_TO_STAGE, addClip);
 
         foto = new Loader();
         foto.name = 'cargador';
         foto.contentLoaderInfo.addEventListener(Event.COMPLETE, fotoCargada);
-        foto.load(new URLRequest('http://graph.facebook.com/' + usuario.id + '/picture?type=large'));
+        foto.load(new URLRequest(usuario.foto as String));
     }
 
 
@@ -80,10 +86,6 @@ public class CajaTextoView extends Sprite {
 
     private function fotoCargada(e:Event):void
     {
-        /*if(clip.foto.getChildByName('cargador')){
-            clip.foto.removeChild(clip.foto.getChildByName('cargador'));
-        }*/
-
         Bitmap(e.currentTarget.content).smoothing = true;
         ajustaFoto(Bitmap(e.currentTarget.content)) ;
 
@@ -138,10 +140,68 @@ public class CajaTextoView extends Sprite {
 
     public function cambiaEscribir():void
     {
+        clip.foto.visible = true;
+        clip.nombre_txt.visible = true;
+        clip.ciudad_txt.visible = true;
         clip.cerrar.visible = false;
         clip.texto_txt.selectable = true;
         clip.texto_txt.text = TEXTO_ENVIO;
         clip.enviar.visible = true;
+    }
+
+
+    public function cambiaPin():void
+    {
+        if(_this.visible)
+        {
+            TweenLite.to(_this, 0.4, {alpha: 0, onComplete: function(){
+                pinta();
+            }});
+        } else {
+            pinta();
+        }
+        
+        function pinta():void
+        {
+            Debug.trace('[QUÉ PINTOOOOOOOOOOO]');
+            
+            clip.foto.visible = false;
+            clip.nombre_txt.visible = false;
+            clip.ciudad_txt.visible = false;
+            clip.cerrar.visible = false;
+            clip.texto_txt.selectable = false;
+            clip.texto_txt.text = 'PIN';
+            clip.enviar.visible = true;
+            clip.enviar.removeEventListener(MouseEvent.CLICK, clicEnvio);
+            clip.enviar.addEventListener(MouseEvent.CLICK, clicPin);
+            _this.visible = true;
+            TweenLite.to(_this,  0.4, {alpha: 1});
+        }
+        
+        function clicPin(e:MouseEvent):void
+        {
+            if(clip.texto_txt.text != 'PIN' && clip.texto_txt.text != '' && clip.texto_txt.text != ' ')
+            {
+                clip.enviar.addEventListener(MouseEvent.CLICK, clicPin);
+                
+                var evento:PreguntasEvent = new PreguntasEvent(PreguntasEvent.ESCRIBE_PIN);
+                evento.datos.pin = clip.texto_txt.text;
+                _this.dispatchEvent(evento);
+
+                TweenLite.to(_this,  0.4, {alpha: 0, onComplete: function(){
+                    clip.enviar.removeEventListener(MouseEvent.CLICK, clicPin);
+
+                    clip.enviar.addEventListener(MouseEvent.CLICK, clicEnvio);
+                    cambiaEscribir();
+
+                    TweenLite.to(_this, 0.4, {alpha: 1});
+
+                }}); 
+            }
+            
+        }
+        
+        
     }
 
 
@@ -157,12 +217,16 @@ public class CajaTextoView extends Sprite {
 
         function pinta():void
         {
+            clip.foto.visible = true;
+            clip.nombre_txt.visible = true;
+            clip.ciudad_txt.visible = true;
             clip.cerrar.visible = true;
             clip.texto_txt.selectable = false;
             clip.enviar.visible = false;
 
             clip.nombre_txt.text = _datos.nombre + ' ' + _datos.apellidos;
             clip.texto_txt.text = _datos.pregunta as String;
+            clip.ciudad_txt.text = _datos.ciudad;
             
             if(clip.foto.getChildByName('cargador'))
             {
@@ -172,12 +236,7 @@ public class CajaTextoView extends Sprite {
             foto = new Loader();
             foto.name = 'cargador';
             foto.contentLoaderInfo.addEventListener(Event.COMPLETE, fotoCargada);
-            if(_datos.red_social == 0)
-            {
-                foto.load(new URLRequest('http://graph.facebook.com/' + _datos.id_social + '/picture?type=large'));
-            } else {
-                // TODO pintar la foto de Twitter
-            }
+            foto.load(new URLRequest(_datos.foto));
             
             _this.visible = true;
             TweenLite.to(_this,  0.4, {alpha: 1});
