@@ -17,6 +17,7 @@ import commands.EnviarPreguntaCommand;
 import commands.LoginCommand;
 import commands.LuminariasCommand;
 import commands.PideMenuCommand;
+import commands.PidePreguntasCommand;
 import commands.PinCommand;
 import commands.SubeMarcoCommand;
 
@@ -31,6 +32,7 @@ import flash.display.DisplayObjectContainer;
 import mediators.CajaLoginMediator;
 import mediators.CajaPinMediator;
 import mediators.CajaTextoMediator;
+import mediators.ContenedorElegidosMediator;
 import mediators.LuminariasMediator;
 
 import mediators.MainMediator;
@@ -39,6 +41,7 @@ import mediators.RespuestaMediator;
 import mediators.SeccionInicioMediator;
 import mediators.SeccionPreguntasMediator;
 import mediators.SeccionProductoMediator;
+import mediators.SeccionRespondeMediator;
 import mediators.SeccionSpotMediator;
 import mediators.SlideMediator;
 import mediators.SocialLinksMediator;
@@ -62,6 +65,7 @@ import models.IFBConnection;
 import views.CajaLoginView;
 import views.CajaPinView;
 import views.CajaTextoView;
+import views.ContenedorElegidosView;
 import views.LuminariasView;
 
 import views.MainView;
@@ -70,6 +74,7 @@ import views.RespuestaView;
 import views.SeccionInicioView;
 import views.SeccionPreguntaView;
 import views.SeccionProductoView;
+import views.SeccionRespondeView;
 import views.SeccionSpotView;
 import views.SlideView;
 import views.SocialLinksView;
@@ -105,6 +110,7 @@ public class MainContext extends Context {
         commandMap.mapEvent(PreguntasEvent.PIDE_LUMINARIAS, LuminariasCommand, PreguntasEvent);
         commandMap.mapEvent(PreguntasEvent.ESCRIBE_PIN, PinCommand, PreguntasEvent);
         commandMap.mapEvent(InicioEvent.TWTPIN, CreaPinCommand, InicioEvent);
+        commandMap.mapEvent(PreguntasEvent.PIDE_RESPUESTAS, PidePreguntasCommand, PreguntasEvent);
     }
 
 
@@ -132,6 +138,8 @@ public class MainContext extends Context {
         mediatorMap.mapView(SeccionSpotView, SeccionSpotMediator);
         mediatorMap.mapView(VideoProductoView, VideoProductoMediator);
         mediatorMap.mapView(CajaPinView, CajaPinMediator);
+        mediatorMap.mapView(SeccionRespondeView, SeccionRespondeMediator);
+        mediatorMap.mapView(ContenedorElegidosView, ContenedorElegidosMediator);
     }
 
 

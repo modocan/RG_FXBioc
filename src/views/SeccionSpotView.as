@@ -29,7 +29,6 @@ public class SeccionSpotView extends Sprite {
     private var timer:Timer;
 
     public function SeccionSpotView(quien:String, ruta_video:String) {
-        Debug.trace('[SECCION_SPOT]', Debug.LEVEL_ERROR);
         this.name = quien;
         _this = this;
         this.visible = false;
@@ -122,6 +121,14 @@ public class SeccionSpotView extends Sprite {
         video.removeEventListener(PlayerYTBEvent.MUEVE, mueveRaton);
         video.destruye();
         _this.dispatchEvent(new SpotEvent(SpotEvent.ESTADO_STOP));
+    }
+
+    public function destruyeMini():void
+    {
+        timer.stop();
+        timer.removeEventListener(TimerEvent.TIMER, tiempo);
+        video.removeEventListener(PlayerYTBEvent.MUEVE, mueveRaton);
+        video.destruye();
     }
 
 }

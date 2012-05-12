@@ -20,6 +20,8 @@ public class PreguntasModel extends Actor implements IPreguntasModel {
     private const GATEWAY:String = 'http://www.flex.es/tourflex/amfphp/gateway.php';
     private var cn:NetConnection;
 
+    private var seleccionadas:Object = new Object();
+
     private var preguntas:Object = new Object();
 
     public function PreguntasModel() {
@@ -74,6 +76,27 @@ public class PreguntasModel extends Actor implements IPreguntasModel {
             }
 
         }
+    }
+
+
+    public function pideSeleccionadas():void
+    {
+        cn = new NetConnection();
+        cn.connect(GATEWAY);
+        cn.call('ContactService.damePreguntasElegidas', new Responder(respuesta));
+
+        function respuesta(datos:Object):void
+        {
+            if(datos != 'KO'){
+                seleccionadas = datos;
+
+                var evento:PreguntasEvent = new PreguntasEvent(PreguntasEvent.SELECCIONADAS);
+                evento.datos = seleccionadas;
+                eventDispatcher.dispatchEvent(evento);
+            }
+
+        }
+
     }
 
 

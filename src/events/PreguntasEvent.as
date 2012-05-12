@@ -24,6 +24,9 @@ public class PreguntasEvent extends Event {
     public static const PIN_TWT:String = 'PreguntasEvent.PIN_TWT';
     public static const ESCRIBE_PIN:String = 'PreguntasEvent.ESCRIBE_PIN';
     public static const CERRAR_CAJA:String = 'PreguntasEvent.CERRAR_CAJA';
+    public static const PIDE_RESPUESTAS:String = 'PreguntasEvent.PIDE_RESPUESTAS';
+    public static const SELECCIONADAS:String = 'PreguntasEvent.SELECCIONADAS';
+    public static const CLIC_RESPUESTA:String = 'PreguntasEvent.CLIC_RESPUESTA';
 
     private var _datos:Object = new Object();
 

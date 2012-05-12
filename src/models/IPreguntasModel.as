@@ -12,5 +12,7 @@ public interface IPreguntasModel {
 
     function damePreguntas():void
 
+    function pideSeleccionadas():void
+
 }
 }

@@ -74,13 +74,18 @@ public class SeccionSpotMediator extends Mediator {
 
     private function borra(e:TimerEvent):void
     {
-        Debug.trace('[BORRADO!!!!!!]', Debug.LEVEL_ERROR);
-        
-        if(contextView.getChildByName(vista.name));
+        trace('[NOMBRE_VIDEO] -> ' + vista.name);
+
+        if(vista.name != '__video')
         {
-            contextView.removeChild(contextView.getChildByName(vista.name));
+            if(contextView.getChildByName(vista.name));
+            {
+                contextView.removeChild(contextView.getChildByName(vista.name));
+            }
+            eventDispatcher.dispatchEvent(new SpotEvent(SpotEvent.ESTADO_STOP));
         }
-        eventDispatcher.dispatchEvent(new SpotEvent(SpotEvent.ESTADO_STOP));
+
+
     }
 
 }

@@ -23,6 +23,7 @@ import views.SeccionInicioView;
 
 import views.SeccionPreguntaView;
 import views.SeccionProductoView;
+import views.SeccionRespondeView;
 import views.SeccionSpotView;
 
 public class CambiaSeccionCommand extends Command {
@@ -54,6 +55,10 @@ public class CambiaSeccionCommand extends Command {
 
             case 'SPOT':
                 contextView.addChild(new SeccionSpotView(ev.quien, modelo.dameVideoSpot()));
+                break;
+
+            case 'CONTADOR RESPONDE':
+                contextView.addChild(new SeccionRespondeView(ev.quien));
                 break;
 
             case 'INICIO':

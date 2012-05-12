@@ -14,6 +14,7 @@ import org.robotlegs.mvcs.Actor;
 public class MainModel extends Actor implements IMainModel {
 
     private var seccionesFase1:Array = ['INICIO', 'SPOT', 'HABLA CON CONTADOR', 'WELLNESS BIOCERAMICS ®'];
+    private var seccionesFase2:Array = ['INICIO', 'SPOT', 'CONTADOR RESPONDE', 'WELLNESS BIOCERAMICS ®'];
     private var _usuarioLogin:Object = new Object();
     private var enlace_producto:String = 'http://www.flex.es/flex-bioceramics.html';
     private var video_spot:String = '633STUHKSWs';
@@ -28,7 +29,7 @@ public class MainModel extends Actor implements IMainModel {
 
     public function dameSecciones():Array
     {
-        return seccionesFase1;
+        return seccionesFase2;
     }
 
     public function dameUsuarioLogin():Object {
