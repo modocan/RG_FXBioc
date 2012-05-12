@@ -9,6 +9,8 @@ package commands {
 import com.hexagonstar.util.debug.Debug;
 import com.hexagonstar.util.debug.Debug;
 
+import events.InicioEvent;
+
 import events.MenuEvent;
 
 import flash.display.Sprite;
@@ -16,6 +18,8 @@ import flash.display.Sprite;
 import models.IMainModel;
 
 import org.robotlegs.mvcs.Command;
+
+import views.SeccionInicioView;
 
 import views.SeccionPreguntaView;
 import views.SeccionProductoView;
@@ -40,12 +44,12 @@ public class CambiaSeccionCommand extends Command {
 
         switch(ev.quien)
         {
-            case 'PREGUNTA A CONTADOR':
+            case 'HABLA CON CONTADOR':
                 contextView.addChild(new SeccionPreguntaView(ev.quien));
                 break;
 
-            case 'PRODUCTO':
-                contextView.addChild(new SeccionProductoView(ev.quien));
+            case 'WELLNESS BIOCERAMICS ®':
+                contextView.addChild(new SeccionProductoView(ev.quien, modelo.dameVideoProducto(), modelo.dameEnlaceProducto()));
                 break;
 
             case 'SPOT':
@@ -53,6 +57,17 @@ public class CambiaSeccionCommand extends Command {
                 break;
 
             case 'INICIO':
+
+                if(contextView.getChildByName(ev.quien)){
+                    Debug.trace('ya estaba', Debug.LEVEL_ERROR);
+                    var mi_evento:InicioEvent = new InicioEvent(InicioEvent.ABRIR);
+                    mi_evento.quien = ev.quien;
+                    eventDispatcher.dispatchEvent(mi_evento);
+                }  else {
+
+                    contextView.addChild(new SeccionInicioView(ev.quien));
+
+                }
                 break;
         }
     }

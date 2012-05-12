@@ -58,7 +58,7 @@ public class SeccionPreguntaView extends Sprite {
         login = new CajaLoginView();
         login.name = 'login';
         login.x = 50;
-        login.y = 110;
+        login.y = 130;
         login.addEventListener(Event.ADDED_TO_STAGE, aded);
         addChild(login);
 
@@ -66,7 +66,13 @@ public class SeccionPreguntaView extends Sprite {
         slide.name = 'slide';
         slide.x = (_this.stage.stageWidth/2) - (slide.width/2);
         slide.y = _this.stage.stageHeight - 60;
+        slide.addEventListener(Event.ADDED_TO_STAGE, ad_slide);
         addChild(slide);
+
+        function ad_slide(e:Event):void
+        {
+            slide.removeEventListener(Event.ADDED_TO_STAGE, ad_slide);
+        }
 
         function aded(e:Event):void
         {
@@ -105,28 +111,28 @@ public class SeccionPreguntaView extends Sprite {
 
         if(_this.getChildByName('fondo')){
 
-            var stageAspectRatio = stage.stageWidth / stage.stageHeight;
+            var stageAspectRatio = _this.stage.stageWidth / _this.stage.stageHeight;
             var imageAspectRatio = FondoPregunta(_this.getChildByName('fondo')).width / FondoPregunta(_this.getChildByName('fondo')).height;
 
             if (stageAspectRatio >= imageAspectRatio)
             {
-                FondoPregunta(_this.getChildByName('fondo')).width = stage.stageWidth;
-                FondoPregunta(_this.getChildByName('fondo')).height = stage.stageWidth / imageAspectRatio;
+                FondoPregunta(_this.getChildByName('fondo')).width = _this.stage.stageWidth;
+                FondoPregunta(_this.getChildByName('fondo')).height = _this.stage.stageWidth / imageAspectRatio;
             }
             else
             {
-                FondoPregunta(_this.getChildByName('fondo')).height = stage.stageHeight;
-                FondoPregunta(_this.getChildByName('fondo')).width = stage.stageHeight * imageAspectRatio;
+                FondoPregunta(_this.getChildByName('fondo')).height = _this.stage.stageHeight;
+                FondoPregunta(_this.getChildByName('fondo')).width = _this.stage.stageHeight * imageAspectRatio;
             }
 
-            FondoPregunta(this.getChildByName('fondo')).x = (this.stage.stageWidth/2);
-            FondoPregunta(this.getChildByName('fondo')).y = this.stage.stageHeight/2;
+            FondoPregunta(this.getChildByName('fondo')).x = (_this.stage.stageWidth/2);
+            FondoPregunta(this.getChildByName('fondo')).y = _this.stage.stageHeight/2;
         }
 
         if(_this.getChildByName('login'))
         {
             CajaLoginView(this.getChildByName('login')).x = 50;
-            CajaLoginView(this.getChildByName('login')).y = 110;
+            CajaLoginView(this.getChildByName('login')).y = 130;
         }
         
         if(_this.getChildByName('slide'))

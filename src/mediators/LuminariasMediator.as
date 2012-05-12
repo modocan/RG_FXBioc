@@ -32,6 +32,7 @@ public class LuminariasMediator extends Mediator {
         eventMap.mapListener(vista, PreguntasEvent.TIRADOR_OCULTO, proporcion);
         eventMap.mapListener(vista, PreguntasEvent.TIRADOR_VISIBLE, proporcion);
         eventMap.mapListener(eventDispatcher, PreguntasEvent.TIRADOR_MOV, movimiento);
+        eventMap.mapListener(eventDispatcher, PreguntasEvent.CERRAR_CAJA, apagaLumis);
         eventMap.mapListener(vista, PreguntasEvent.TIRADOR_INVERSO, movimientoInverso);
         eventMap.mapListener(vista, Event.ADDED_TO_STAGE, init);
         eventMap.mapListener(vista, PreguntasEvent.PREGUNTA_ELEGIDA, elegida);
@@ -49,6 +50,12 @@ public class LuminariasMediator extends Mediator {
     private function lumis(e:PreguntasEvent):void
     {
         vista.pintaLuminarias(e.datos);
+    }
+    
+    
+    private function apagaLumis(e:PreguntasEvent):void
+    {
+        vista.apagaLumis();
     }
 
 

@@ -33,25 +33,23 @@ public class SocialLinksMediator extends Mediator {
 
     private function clicSocial(e:MenuEvent):void
     {
-        var url:String;
 
         switch(e.quien)
         {
             case 'fb':
-                url = '';
+                navigateToURL(new URLRequest(encodeURI("http://www.facebook.com/sharer.php?s=100&p[url]=http://www.tourflex.es&p[images][0]=http://www.tourflex.es/imgs/tourflex_90x90.jpg&p[title]=Alberto Contador correrá la etapa reina del Tour que le quitaron.&p[summary]=¡Dale ánimos! Lo escuchará en directo durante la carrera.")), '_blank');
                 break;
 
             case 'twt':
-                url = '';
+                var _url_twitter:String = "http://twitter.com/home?status="+encodeURI("Alberto Contador correrá la etapa reina del Tour que le quitaron. ¡Anímale! Lo escuchará en directo durante la carrera. http://www.tourflex.es");
+                navigateToURL(new URLRequest(_url_twitter),'_blank');
                 break;
 
             case 'tnt':
-                url = '';
+                navigateToURL(new URLRequest(encodeURI("http://www.tuenti.com/?m=Share&url=http://www.tourflex.es&referer=&suggested-text=Alberto Contador correrá la etapa reina del Tour que le quitaron. http://www.tourflex.es")), "_blank");
                 break;
         }
 
-
-        navigateToURL(new URLRequest(url), '_blank');
     }
 
 }

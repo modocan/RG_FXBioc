@@ -25,6 +25,7 @@ public class CajaLoginView extends Sprite {
     private var _this:CajaLoginView;
     private var caja_texto:CajaTextoView;
     private var caja_respuesta:RespuestaView;
+    private var cargando:CargandoMini;
 
     public function CajaLoginView() {
         _this = this;
@@ -37,6 +38,7 @@ public class CajaLoginView extends Sprite {
 
         titulo = new TituloSeccionPreguntas();
         titulo.name = 'titulo';
+        titulo
         titulo.addEventListener(Event.ADDED_TO_STAGE, pintaLogin);
         addChild(titulo);
     }
@@ -75,11 +77,30 @@ public class CajaLoginView extends Sprite {
     }
 
 
-    public function ocultaLogin():void
+    public function ocultaLogin(rele:Boolean = false):void
     {
-        TweenLite.to(login,  0.4, {alpha: 0, onComplete:function(){
-            login.visible = false;
-        }});
+        if(rele)
+        {
+            TweenLite.to(login,  0.4, {alpha: 0, onComplete:function(){
+                login.visible = false;
+
+                cargando = new CargandoMini();
+                cargando.name = 'cargando';
+                cargando.alpha = 0;
+                cargando.y = login.y;
+                cargando.x = (login.x + (login.width/2)) - (cargando.width/2);
+                cargando.addEventListener(Event.ADDED_TO_STAGE, ad_cargando);
+                _this.addChild(cargando);
+            }});
+        } else {
+            TweenLite.to(login,  0.4, {alpha: 0, onComplete:function(){
+                login.visible = false;
+            }});
+        }
+        function ad_cargando(e:Event):void
+        {
+            TweenLite.to(cargando,  0.3, {alpha: 1});
+        }
     }
 
 
@@ -92,10 +113,39 @@ public class CajaLoginView extends Sprite {
 
     public function pintaCaja(datos:Object):void
     {
+        if(_this.getChildByName('cargando'))
+        {
+            TweenLite.to(cargando, 0.3, {alpha: 0,onCompleteParams:[datos], onComplete: conCargando});
+        } else {
+            sinCargando();
+        }
+
+        function sinCargando():void
+        {
+            caja_texto.init(datos);
+            caja_texto.visible = true;
+            caja_texto.reinicia();
+            TweenLite.to(caja_texto, 0.5, {alpha: 1});
+        }
+        
+
+    }
+
+
+    private function conCargando(datos:Object):void
+    {
         caja_texto.init(datos);
         caja_texto.visible = true;
         caja_texto.reinicia();
-        TweenLite.to(caja_texto, 0.5, {alpha: 1});
+        TweenLite.to(caja_texto, 0.5, {onStart: function(){
+
+            if(_this.getChildByName('cargando'))
+            {
+                _this.removeChild(_this.getChildByName('cargando'));
+            }
+
+
+        }, alpha: 1});
     }
 
 

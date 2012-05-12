@@ -14,6 +14,7 @@ public class PlayerYTBEvent extends Event {
     public static const PLAY:String = 'PlayerYTBEvent.PLAY';
     public static const PAUSE:String = 'PlayerYTBEvent.PAUSE';
     public static const MUEVE:String = 'PlayerYTBEvent.MUEVE';
+    public static const LISTO:String = 'PlayerYTBEvent.LISTO';
 
     private var _datos:Object = new Object();
 

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<s:Panel xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+    xmlns:mx="library://ns.adobe.com/flex/mx"
+        width="100%" height="100%"
+        xmlns:modulos = "modulos.*">
+
+
+    <fx:Script><![CDATA[
+        import mx.containers.TabNavigator;
+        import mx.events.IndexChangedEvent;
+
+        import spark.components.NavigatorContent;
+
+
+        public function cambia(e:Event):void
+         {
+             /*var cual:TabNavigator = TabNavigator(e.currentTarget);
+             TabNavigator(e.currentTarget.getChildAt(TabNavigator(e.currentTarget).selectedIndex)).init();*/
+             NavigatorContent(e.currentTarget.getTabAt(e.currentTarget.selectedIndex)).initialize();
+         }
+
+
+        ]]></fx:Script>
+
+
+
+
+
+
+        <mx:TabNavigator id="navigator" change="document.cambia(event)"
+                width="100%" height="100%">
+
+            <modulos:PreguntasContent id="preguntas"  />
+           <!--  <modulos:PendientesContent id="aprobadas" /> -->
+
+        </mx:TabNavigator>
+
+
+
+
+
+</s:Panel>

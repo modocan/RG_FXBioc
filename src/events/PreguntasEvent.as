@@ -23,6 +23,7 @@ public class PreguntasEvent extends Event {
     public static const TEXTO_CERRADO:String = 'PreguntasEvent.TEXTO_CERRADO';
     public static const PIN_TWT:String = 'PreguntasEvent.PIN_TWT';
     public static const ESCRIBE_PIN:String = 'PreguntasEvent.ESCRIBE_PIN';
+    public static const CERRAR_CAJA:String = 'PreguntasEvent.CERRAR_CAJA';
 
     private var _datos:Object = new Object();
 

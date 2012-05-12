@@ -90,6 +90,8 @@ public class PlayerYTB extends Sprite {
         function inicio(e:Event):void
         {
             fondo_video.removeEventListener(Event.ADDED_TO_STAGE, inicio);
+           // _this.dispatchEvent(new PlayerYTBEvent(PlayerYTBEvent.INIT));
+
             _this.dispatchEvent(new PlayerYTBEvent(PlayerYTBEvent.INIT));
 
             loader = new Loader();
@@ -131,6 +133,10 @@ public class PlayerYTB extends Sprite {
         _this.addChild(reproductor);
 
         _this.addEventListener(Event.ENTER_FRAME, controla);
+        
+
+
+        //_this.dispatchEvent(new PlayerYTBEvent(PlayerYTBEvent.INIT));
         
         tirador.addEventListener(MouseEvent.MOUSE_DOWN, cogeTirador);        
         
@@ -190,6 +196,8 @@ public class PlayerYTB extends Sprite {
         {
             reproductor.x = (player.width / 2) - (reproductor.width/2);
             reproductor.y = 20;
+            _this.dispatchEvent(new PlayerYTBEvent(PlayerYTBEvent.LISTO));
+           // _this.dispatchEvent(new PlayerYTBEvent(PlayerYTBEvent.INIT));
         }
 
     }
@@ -230,6 +238,8 @@ public class PlayerYTB extends Sprite {
         {
             var porcentaje_tiempo:Number = (player.getCurrentTime() * 100) / player.getDuration();
             tirador.x = (fondo.width * porcentaje_tiempo) / 100;
+        } else {
+            tirador.x = 0;
         }
 
         /*if(player.getPlayerState() == 2)
@@ -297,6 +307,18 @@ public class PlayerYTB extends Sprite {
         player.setSize(_ancho,  _alto);
         reproductor.x = (player.width / 2) - (reproductor.width/2);
         reproductor.y = 20;
+    }
+    
+    public function ajustaMini(_ancho, _alto):void
+    {
+        if(_this.getChildByName('reproductor'))
+        {
+            player.setSize(_ancho,  _alto);
+            reproductor.x = (player.width / 2) - (reproductor.width/2);
+            reproductor.y = player.height + 10;
+        }
+        
+
     }
 
 }

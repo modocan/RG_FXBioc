@@ -22,7 +22,11 @@ public class SubeMarcoCommand extends Command {
 
     override public function execute():void
     {
-        contextView.addChild(contextView.getChildByName('marco'));
+        if(contextView.getChildByName('marco'))
+        {
+            contextView.addChild(contextView.getChildByName('marco'));
+        }
+
 
         var evento:ControlEvent = new ControlEvent(ControlEvent.APAGAR);
         evento.quien = e.quien;

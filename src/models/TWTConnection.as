@@ -24,12 +24,12 @@ public class TWTConnection extends Actor implements ITWTConnection {
     private var oauth:OAuth;
     private var usuario:Tweetr;
     private var user:Object;
+    private var _link:String = 'http://www.tourflex.es';
+    private var _texto:String = 'He por escrito mi mensaje de ánimo a Alberto Contador para completar la etapa reina del Tour que le quitaron';
 
     public function TWTConnection() {
         super();
     }
-
-
     public function init():void
     {
         Security.loadPolicyFile('http://a0.twimg.com/crossdomain.xml');
@@ -75,6 +75,16 @@ public class TWTConnection extends Actor implements ITWTConnection {
     }
 
 
+    public function comparte():void
+    {
+        usuario.removeEventListener(TweetEvent.COMPLETE, estado);
+        usuario.removeEventListener(TweetEvent.FAILED, estado);
+        
+
+        usuario.updateStatus(_texto + ' ' + _link);
+    }
+
+
     private function estado(e:TweetEvent):void
     {
         //usuario.removeEventListener(TweetEvent.COMPLETE, estado);
@@ -86,7 +96,13 @@ public class TWTConnection extends Actor implements ITWTConnection {
         
         user = new Object();
         user.nombre =  Array(String(resp.name).split(' '))[0][0];
-        user.apellidos =  Array(String(resp.name).split(' '))[0][1];
+        
+        if(Array(String(resp.name).split(' '))[0][1] == undefined || Array(String(resp.name).split(' '))[0][1] == 'undefined' || Array(String(resp.name).split(' '))[0][1] == null || Array(String(resp.name).split(' '))[0][1] == 'null'){
+            user.apellidos = '';
+        } else {
+            user.apellidos =  Array(String(resp.name).split(' '))[0][1];
+        }
+
         user.ciudad = resp.location;
         user.id = resp.id;
         user.red_social = 1;

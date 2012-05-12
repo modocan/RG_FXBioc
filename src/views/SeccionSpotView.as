@@ -43,6 +43,8 @@ public class SeccionSpotView extends Sprite {
     {
         this.removeEventListener(Event.ADDED_TO_STAGE, init);
 
+        _this.dispatchEvent(new PlayerYTBEvent(PlayerYTBEvent.INIT));
+
         video = new PlayerYTB();
         video.addEventListener(PlayerYTBEvent.INIT, inicio);
         video.addEventListener(PlayerYTBEvent.PLAY, valoraEstado);
@@ -61,7 +63,7 @@ public class SeccionSpotView extends Sprite {
 
         function inicio(e:PlayerYTBEvent):void
         {
-            _this.dispatchEvent(new PlayerYTBEvent(PlayerYTBEvent.INIT));
+
             _this.visible = true;
 
             TweenLite.to(_this, 0.7, {alpha: 1});
@@ -113,7 +115,14 @@ public class SeccionSpotView extends Sprite {
     }
 
 
-
+    public function destruye():void
+    {
+        timer.stop();
+        timer.removeEventListener(TimerEvent.TIMER, tiempo);
+        video.removeEventListener(PlayerYTBEvent.MUEVE, mueveRaton);
+        video.destruye();
+        _this.dispatchEvent(new SpotEvent(SpotEvent.ESTADO_STOP));
+    }
 
 }
 }

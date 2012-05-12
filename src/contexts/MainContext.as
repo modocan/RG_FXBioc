@@ -6,8 +6,12 @@
  * To change this template use File | Settings | File Templates.
  */
 package contexts {
+import assets.rub.clases.CajaPin;
+import assets.rub.clases.Microfono;
+
 import commands.ActualizaUsuarioCommand;
 import commands.CambiaSeccionCommand;
+import commands.CreaPinCommand;
 import commands.CreacionCommand;
 import commands.EnviarPreguntaCommand;
 import commands.LoginCommand;
@@ -17,6 +21,7 @@ import commands.PinCommand;
 import commands.SubeMarcoCommand;
 
 import events.ControlEvent;
+import events.InicioEvent;
 
 import events.MenuEvent;
 import events.PreguntasEvent;
@@ -24,17 +29,20 @@ import events.PreguntasEvent;
 import flash.display.DisplayObjectContainer;
 
 import mediators.CajaLoginMediator;
+import mediators.CajaPinMediator;
 import mediators.CajaTextoMediator;
 import mediators.LuminariasMediator;
 
 import mediators.MainMediator;
 import mediators.MenuMediator;
 import mediators.RespuestaMediator;
+import mediators.SeccionInicioMediator;
 import mediators.SeccionPreguntasMediator;
 import mediators.SeccionProductoMediator;
 import mediators.SeccionSpotMediator;
 import mediators.SlideMediator;
 import mediators.SocialLinksMediator;
+import mediators.VideoProductoMediator;
 
 
 import models.IMainModel;
@@ -52,17 +60,20 @@ import models.FBConnection;
 import models.IFBConnection;
 
 import views.CajaLoginView;
+import views.CajaPinView;
 import views.CajaTextoView;
 import views.LuminariasView;
 
 import views.MainView;
 import views.MenuView;
 import views.RespuestaView;
+import views.SeccionInicioView;
 import views.SeccionPreguntaView;
 import views.SeccionProductoView;
 import views.SeccionSpotView;
 import views.SlideView;
 import views.SocialLinksView;
+import views.VideoProductoView;
 
 public class MainContext extends Context {
 
@@ -93,6 +104,7 @@ public class MainContext extends Context {
         commandMap.mapEvent(ControlEvent.ACTUALIZA_USUARIO, ActualizaUsuarioCommand, ControlEvent);
         commandMap.mapEvent(PreguntasEvent.PIDE_LUMINARIAS, LuminariasCommand, PreguntasEvent);
         commandMap.mapEvent(PreguntasEvent.ESCRIBE_PIN, PinCommand, PreguntasEvent);
+        commandMap.mapEvent(InicioEvent.TWTPIN, CreaPinCommand, InicioEvent);
     }
 
 
@@ -115,8 +127,11 @@ public class MainContext extends Context {
         mediatorMap.mapView(CajaTextoView, CajaTextoMediator);
         mediatorMap.mapView(RespuestaView, RespuestaMediator);
         mediatorMap.mapView(LuminariasView, LuminariasMediator);
+        mediatorMap.mapView(SeccionInicioView, SeccionInicioMediator);
         mediatorMap.mapView(SlideView, SlideMediator);
         mediatorMap.mapView(SeccionSpotView, SeccionSpotMediator);
+        mediatorMap.mapView(VideoProductoView, VideoProductoMediator);
+        mediatorMap.mapView(CajaPinView, CajaPinMediator);
     }
 
 

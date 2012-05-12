@@ -12,5 +12,7 @@ public interface ITWTConnection {
 
     function pintaPin(code:String):void
 
+    function comparte():void
+
 }
 }

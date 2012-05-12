@@ -17,7 +17,7 @@ import org.robotlegs.mvcs.Actor;
 
 public class PreguntasModel extends Actor implements IPreguntasModel {
 
-    private const GATEWAY:String = 'http://www.tourflex.es/amfphp/gateway.php';
+    private const GATEWAY:String = 'http://www.flex.es/tourflex/amfphp/gateway.php';
     private var cn:NetConnection;
 
     private var preguntas:Object = new Object();
@@ -29,8 +29,6 @@ public class PreguntasModel extends Actor implements IPreguntasModel {
 
     public function enviaPregunta(usuario:Object, pregunta:String):void
     {
-        Debug.trace('[model]');
-
         var envio:Object = new Object();
         envio.nombre = usuario.nombre;
         envio.apellidos = usuario.apellidos;
@@ -42,7 +40,6 @@ public class PreguntasModel extends Actor implements IPreguntasModel {
         envio.seleccionado = 0;
         envio.ciudad = usuario.ciudad;
 
-        Debug.traceObj(usuario);
         Debug.inspect(envio);
 
         cn = new NetConnection();

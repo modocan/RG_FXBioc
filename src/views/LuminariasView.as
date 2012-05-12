@@ -7,6 +7,7 @@
  */
 package views {
 import com.greensock.TweenLite;
+import com.greensock.TweenLite;
 import com.greensock.easing.Circ;
 import com.hexagonstar.util.debug.Debug;
 
@@ -18,7 +19,7 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 
-public class LuminariasView extends Sprite {
+public class LuminariasView extends MovieClip {
 
     private var contenedor:Sprite;
     private var luminaria:Luminaria;
@@ -48,9 +49,6 @@ public class LuminariasView extends Sprite {
         lumis = new Object();
         lumis = _lumis;
 
-        Debug.trace('[Ancho Escenario] -> ' + this.stage.stageWidth, Debug.LEVEL_ERROR);
-        Debug.trace('[Mi posicion] -> ' + this.x, Debug.LEVEL_ERROR);
-
         contenedor = new MovieClip();
         contenedor.name = 'contenedor';
         contenedor.cacheAsBitmap = true;
@@ -61,8 +59,6 @@ public class LuminariasView extends Sprite {
         {
             contenedor.removeEventListener(Event.ADDED_TO_STAGE, cont);
 
-            Debug.inspect(lumis);
-
             var ruta_lumi:String;
             for(var i:int = 0; i < lumis.length; i++)
             {
@@ -70,6 +66,9 @@ public class LuminariasView extends Sprite {
 
                 luminaria = new Luminaria();
                 luminaria.clip.init(lumis[i], ruta_lumi);
+                luminaria.clip.velo.visible = false;
+                luminaria.clip.velo.alpha = 0;
+                luminaria.buttonMode = true;
                 luminaria.name = String(i);
                 if(i > 0){
                    luminaria.x = (luminaria.width + luminaria.width/2) + (luminaria.width * i) + (Math.random() * 20);
@@ -77,12 +76,8 @@ public class LuminariasView extends Sprite {
                     luminaria.x = luminaria.width;
                 }
                 luminaria.y = Math.random() * 300;
-                Debug.trace('[FRAMES] -> ' + luminaria.totalFrames);
-                //luminaria.gotoAndStop(Math.round(Math.random() * (luminaria.totalFrames - 1)));
+                luminaria.gotoAndStop(Math.round(Math.random() * (luminaria.totalFrames - 1)));
                 luminaria.addEventListener(MouseEvent.CLICK, clicLuminaria);
-                luminaria.addEventListener(Event.ADDED_TO_STAGE, function(e:Event){
-                    //Luminaria(e.currentTarget).play();
-                });
                 ajusta();
                 contenedor.addChild(luminaria);
             }
@@ -95,19 +90,55 @@ public class LuminariasView extends Sprite {
             mascara.height = 300 + luminaria.height;
             mascara.addEventListener(Event.ADDED_TO_STAGE, function(e:Event){
                 contenedor.mask = mascara;
+                ajusta();
             });
             addChild(mascara);
+            
+            ajusta();
         }
 
     }
 
 
+    public function apagaLumis():void
+    {
+        var _clip:Luminaria;
+        for(var i:int = 0; i < contenedor.numChildren; i++)
+        {
+            if(contenedor.getChildAt(i) is Luminaria)
+            {
+                _clip = Luminaria(contenedor.getChildAt(i));
+                _clip.clip.velo.visible = false;
+                _clip.clip.velo.alpha = 0;
+                _clip.buttonMode = true;
+                _clip.addEventListener(MouseEvent.CLICK, clicLuminaria);
+            }
+        }
+    }
+
+
     private function clicLuminaria(e:MouseEvent):void
     {
-        lumi_seleccion = Luminaria(e.currentTarget);
-        //lumi_seleccion.stop();
-        lumi_seleccion.alpha = 0.2;
+        var _clip:Luminaria;        
+        for(var i:int = 0; i < contenedor.numChildren; i++)
+        {
+            if(contenedor.getChildAt(i) is Luminaria)
+            {
+                _clip = Luminaria(contenedor.getChildAt(i));
+                _clip.clip.velo.visible = false;
+                _clip.clip.velo.alpha = 0;
+                _clip.buttonMode = true;
+                _clip.addEventListener(MouseEvent.CLICK, clicLuminaria);                
+            }
+        }
+        
+        _clip = Luminaria(e.currentTarget);
+        _clip.removeEventListener(MouseEvent.CLICK, clicLuminaria);
+        _clip.buttonMode = false;
+        _clip.clip.velo.visible = true;
+        TweenLite.to(_clip.clip.velo, 0.3, {alpha: 1});
 
+        lumi_seleccion = _clip;
         _this.dispatchEvent(new PreguntasEvent(PreguntasEvent.PREGUNTA_ELEGIDA));
 
     }
@@ -116,7 +147,22 @@ public class LuminariasView extends Sprite {
     public function mueveLuminarias(movimiento:Number = 0):void
     {
         var recorrido:Number = ((contenedor.width - mascara.width) * movimiento) / 100;
-        TweenLite.to(contenedor, 0.7, {x: -recorrido, ease: Circ.easeOut});
+        var _freno:Number = 0;
+        
+        for(var j:int = 0; j < contenedor.numChildren; j++){
+            if(contenedor.getChildAt(j) is Luminaria){
+                _freno = -7 + (Math.random() * 14);
+               TweenLite.to(Luminaria(contenedor.getChildAt(j)), 0.5, {delay: Math.random() * 0.2, x:Luminaria(contenedor.getChildAt(j)).x + _freno, onCompleteParams:[Luminaria(contenedor.getChildAt(j)), _freno], onComplete:function(_item:Luminaria, _punto:Number=0){
+                   TweenLite.to(_item, 0.5, {delay: Math.random() * 0.2, x: _item.x - _punto, onComplete: function(){
+                       ajusta();
+                   }});
+               }});
+            }
+        }
+        
+        TweenLite.to(contenedor, 1.3, {x: -recorrido, ease: Circ.easeOut, onComplete:function(){
+            ajusta();
+        }});
     }
     
     

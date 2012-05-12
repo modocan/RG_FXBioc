@@ -33,6 +33,7 @@ public class CajaTextoView extends Sprite {
         clip.cerrar.visible = false;
         clip.texto_txt.selectable = true;
         clip.texto_txt.text = TEXTO_ENVIO;
+        clip.texto_txt.maxChars = 160;
         clip.enviar.visible = true;
         clip.enviar.buttonMode = true;
         clip.cerrar.buttonMode = true;
@@ -53,7 +54,7 @@ public class CajaTextoView extends Sprite {
     {
         Debug.inspect(usuario);
 
-        clip.cerrar.visible = false;
+        clip.cerrar.visible = true;
         clip.nombre_txt.text = usuario.nombre + ' ' + usuario.apellidos;
         clip.texto_txt.selectable = true;
         clip.texto_txt.text = TEXTO_ENVIO;
@@ -66,6 +67,11 @@ public class CajaTextoView extends Sprite {
     private function addClip():void
     {
         //clip.removeEventListener(Event.ADDED_TO_STAGE, addClip);
+        
+        if(clip.foto.getChildByName('cargador'))
+        {
+            clip.foto.removeChild(clip.foto.getChildByName('cargador'));
+        }
 
         foto = new Loader();
         foto.name = 'cargador';
@@ -76,10 +82,23 @@ public class CajaTextoView extends Sprite {
 
     private function clicTexto(e:MouseEvent):void
     {
-        if(clip.texto_txt.text == TEXTO_ENVIO && clip.texto_txt.selectable){
+        var _anterior:String =  clip.texto_txt.text;
+        
+        if((clip.texto_txt.text == TEXTO_ENVIO && clip.texto_txt.selectable) || (clip.texto_txt.text == 'PIN' && clip.texto_txt.selectable)){
+
             clip.texto_txt.text = '';
+
         } else if(clip.texto_txt.selectable && clip.texto_txt.text == ''){
-            clip.texto_txt.text = TEXTO_ENVIO;
+
+            if(clip.foto.visible == false)
+            {
+                clip.texto_txt.text = 'PIN';
+
+            } else {
+
+                clip.texto_txt.text = TEXTO_ENVIO;
+            }
+
         }
     }
 
@@ -103,18 +122,18 @@ public class CajaTextoView extends Sprite {
 
     private function ajustaFoto(_foto:Bitmap):void
     {
-        var stageAspectRatio = clip.foto.width / clip.foto.height;
+        var stageAspectRatio = clip.foto.mascara.width / clip.foto.mascara.height;
         var imageAspectRatio = _foto.width / _foto.height;
 
         if (stageAspectRatio >= imageAspectRatio)
         {
-            _foto.width = clip.foto.width;
-            _foto.height = clip.foto.width / imageAspectRatio;
+            _foto.width = clip.foto.mascara.width;
+            _foto.height = clip.foto.mascara.width / imageAspectRatio;
         }
         else
         {
-            _foto.height = clip.foto.height;
-            _foto.width = clip.foto.height * imageAspectRatio;
+            _foto.height = clip.foto.mascara.height;
+            _foto.width = clip.foto.mascara.height * imageAspectRatio;
         }
     }
 
@@ -135,6 +154,8 @@ public class CajaTextoView extends Sprite {
             _this.visible = false;
             _this.dispatchEvent(new PreguntasEvent(PreguntasEvent.TEXTO_CERRADO));
         }});
+        
+        _this.dispatchEvent(new PreguntasEvent(PreguntasEvent.CERRAR_CAJA));
     }
 
 
@@ -143,7 +164,7 @@ public class CajaTextoView extends Sprite {
         clip.foto.visible = true;
         clip.nombre_txt.visible = true;
         clip.ciudad_txt.visible = true;
-        clip.cerrar.visible = false;
+        clip.cerrar.visible = true;
         clip.texto_txt.selectable = true;
         clip.texto_txt.text = TEXTO_ENVIO;
         clip.enviar.visible = true;
@@ -163,13 +184,11 @@ public class CajaTextoView extends Sprite {
         
         function pinta():void
         {
-            Debug.trace('[QUÉ PINTOOOOOOOOOOO]');
-            
             clip.foto.visible = false;
             clip.nombre_txt.visible = false;
             clip.ciudad_txt.visible = false;
-            clip.cerrar.visible = false;
-            clip.texto_txt.selectable = false;
+            clip.cerrar.visible = true;
+            clip.texto_txt.selectable = true;
             clip.texto_txt.text = 'PIN';
             clip.enviar.visible = true;
             clip.enviar.removeEventListener(MouseEvent.CLICK, clicEnvio);
@@ -217,6 +236,10 @@ public class CajaTextoView extends Sprite {
 
         function pinta():void
         {
+
+            var cosa:String = _datos.pregunta as String;
+            //var _pregunta:String =  encodeURI(unescape(_datos.pregunta));
+
             clip.foto.visible = true;
             clip.nombre_txt.visible = true;
             clip.ciudad_txt.visible = true;
@@ -224,9 +247,13 @@ public class CajaTextoView extends Sprite {
             clip.texto_txt.selectable = false;
             clip.enviar.visible = false;
 
-            clip.nombre_txt.text = _datos.nombre + ' ' + _datos.apellidos;
-            clip.texto_txt.text = _datos.pregunta as String;
-            clip.ciudad_txt.text = _datos.ciudad;
+            clip.nombre_txt.text = decodeURI(escape(String(_datos.nombre + ' ' + _datos.apellidos)));
+            //clip.nombre_txt.text =  clip.nombre_txt.text.toUpperCase();
+            //clip.texto_txt.text = _datos.pregunta;
+            clip.texto_txt.text = _datos.pregunta;
+
+            
+            clip.ciudad_txt.text = String(_datos.ciudad);
             
             if(clip.foto.getChildByName('cargador'))
             {
@@ -244,6 +271,8 @@ public class CajaTextoView extends Sprite {
         }
 
     }
+
+
 
 }
 }

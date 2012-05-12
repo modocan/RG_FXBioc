@@ -52,7 +52,7 @@ public class SeccionPreguntasMediator extends Mediator {
         if(e.quien != vista.name)
         {   var tim:Timer = new Timer(800, 1);
             tim.addEventListener(TimerEvent.TIMER_COMPLETE, borra);
-
+            tim.start();
         }
     }
 

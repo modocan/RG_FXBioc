@@ -10,5 +10,7 @@ public interface IFBConnection {
 
     function init():void
 
+    function comparte(texto:String):void
+
 }
 }

@@ -62,7 +62,12 @@ public class CajaLoginMediator extends Mediator {
 
     private function ocultaLogin(e:*):void
     {
-        vista.ocultaLogin();
+        if(e.type == PreguntasEvent.PREGUNTA_ELEGIDA || e.type == PreguntasEvent.PIN_TWT){
+            vista.ocultaLogin(false);
+        } else {
+            vista.ocultaLogin(true);
+        }
+
     }
 
 

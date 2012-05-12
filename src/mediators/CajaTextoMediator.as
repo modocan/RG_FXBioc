@@ -31,6 +31,7 @@ public class CajaTextoMediator extends Mediator {
         eventMap.mapListener(vista, PreguntasEvent.TEXTO_CERRADO, textoCerrado);
         eventMap.mapListener(eventDispatcher, PreguntasEvent.PIN_TWT, muestraPin);
         eventMap.mapListener(vista, PreguntasEvent.ESCRIBE_PIN, escribePin);
+        eventMap.mapListener(vista, PreguntasEvent.CERRAR_CAJA, cajaCerrada);
     }
 
 
@@ -39,6 +40,12 @@ public class CajaTextoMediator extends Mediator {
         var evento:PreguntasEvent = new PreguntasEvent(PreguntasEvent.ENVIA_PREGUNTA);
         evento.datos.pregunta = e.datos.pregunta;
         eventDispatcher.dispatchEvent(evento);
+    }
+
+
+    private function cajaCerrada(e:PreguntasEvent):void
+    {
+        eventDispatcher.dispatchEvent(new PreguntasEvent(PreguntasEvent.CERRAR_CAJA));
     }
     
     

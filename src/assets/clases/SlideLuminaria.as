@@ -1,9 +1,9 @@
-package assets.clases
+﻿package assets.clases
 {
 
 import assets.clases.eventos.SlideLumiEvent;
 
-import com.hexagonstar.util.debug.Debug;
+//import com.hexagonstar.util.debug.Debug;
 
 import flash.display.MovieClip;
 import flash.display.Sprite;

@@ -16,5 +16,13 @@ public interface IMainModel {
 
     function dameVideoSpot():String
 
+    function dameVideoProducto():String
+
+    function dameEnlaceProducto():String
+
+    function dameEnlaceWeb():String
+
+    function dameEnlaceBioceramics():String
+
 }
 }

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Created with IntelliJ IDEA.
  * User: barbaradominguez
  * Date: 22/04/12
@@ -23,6 +23,7 @@ public class ItemLuminaria extends MovieClip {
     private var _datos:Object = new Object();
     private var ruta:String;
     private var _this:ItemLuminaria;
+    private var velo:MovieClip;
 
     public var mascara:MovieClip;
 
@@ -30,10 +31,13 @@ public class ItemLuminaria extends MovieClip {
 
         Security.loadPolicyFile('http://a0.twimg.com/crossdomain.xml');
 
-        this.buttonMode = true;
+        //this.buttonMode = true;
         _this = this;
         _this.visible = false;
         _this.alpha = 0;
+
+        velo = this.velo;
+
         super();
     }
 
@@ -45,7 +49,9 @@ public class ItemLuminaria extends MovieClip {
         cargador = new Loader();
         cargador.contentLoaderInfo.addEventListener(Event.COMPLETE, fotoCargada);
         cargador.load(new URLRequest(ruta));
-        addChild(cargador);
+        _this.addChildAt(cargador, 0);
+
+        //addChild(this.velo);
     }
 
     private function fotoCargada(e:Event):void

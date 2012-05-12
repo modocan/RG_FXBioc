@@ -6,6 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 package mediators {
+import com.hexagonstar.util.debug.Debug;
+
 import events.ControlEvent;
 
 import flash.events.Event;
@@ -47,15 +49,23 @@ public class SeccionProductoMediator extends Mediator {
     private function apaga(e:ControlEvent):void
     {
         if(e.quien != vista.name)
-        {   var tim:Timer = new Timer(800, 1);
+        {
+            vista.destruye();
+            var tim:Timer = new Timer(800, 1);
             tim.addEventListener(TimerEvent.TIMER_COMPLETE, borra);
-
+            tim.start();
         }
     }
 
     private function borra(e:TimerEvent):void
     {
-        contextView.removeChild(contextView.getChildByName(vista.name));
+        Debug.trace('[FUNCION BORRAR]', Debug.LEVEL_ERROR);
+
+        if(contextView.getChildByName(vista.name))
+        {
+            contextView.removeChild(contextView.getChildByName(vista.name));
+        }
+
     }
 }
 }

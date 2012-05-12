@@ -13,9 +13,13 @@ import org.robotlegs.mvcs.Actor;
 
 public class MainModel extends Actor implements IMainModel {
 
-    private var seccionesFase1:Array = ['INICIO', 'SPOT', 'PREGUNTA A CONTADOR', 'PRODUCTO'];
+    private var seccionesFase1:Array = ['INICIO', 'SPOT', 'HABLA CON CONTADOR', 'WELLNESS BIOCERAMICS ®'];
     private var _usuarioLogin:Object = new Object();
-    private var video_spot:String = 'rZPAWyPO2vQ';
+    private var enlace_producto:String = 'http://www.flex.es/flex-bioceramics.html';
+    private var video_spot:String = '633STUHKSWs';
+    private var video_producto:String = 'oImj9E8IDjo';
+    private var enlace_web:String = 'http://www.flex.es';
+    private var enlace_bioceramics:String = 'http://www.flex.es/flex-bioceramics.html';
 
     public function MainModel() {
         super();
@@ -42,6 +46,26 @@ public class MainModel extends Actor implements IMainModel {
     public function dameVideoSpot():String
     {
         return video_spot;
+    }
+
+    public function dameVideoProducto():String
+    {
+        return video_producto;
+    }
+
+    public function dameEnlaceProducto():String
+    {
+        return enlace_producto;
+    }
+
+    public function dameEnlaceWeb():String
+    {
+        return enlace_web;
+    }
+
+    public function dameEnlaceBioceramics():String
+    {
+        return enlace_bioceramics;
     }
 }
 }

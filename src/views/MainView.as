@@ -10,6 +10,9 @@ import com.greensock.TweenLite;
 
 import flash.display.Sprite;
 import flash.events.Event;
+import flash.events.MouseEvent;
+import flash.net.URLRequest;
+import flash.net.navigateToURL;
 
 public class MainView extends Sprite {
 
@@ -20,9 +23,13 @@ public class MainView extends Sprite {
     private var menu:MenuView;
     private var social:SocialLinksView;
     private var login_loader:CargandoLogin;
+    private var enlace_web:String;
+    private var enlace_producto:String;
 
-    public function MainView() {
+    public function MainView(web:String, prod:String) {
         this.name = 'marco';
+        this.enlace_web = web;
+        this.enlace_producto = prod;
         this.addEventListener(Event.ADDED_TO_STAGE, init);
     }
 
@@ -35,19 +42,23 @@ public class MainView extends Sprite {
         marco = new Marco();
         marco.name = 'marco';
         marco.width = this.stage.stageWidth - 40;
-        marco.height = this.stage.stageHeight - 100;
+        marco.height = this.stage.stageHeight - 80;
         marco.x = 20;
-        marco.y = this.stage.stageHeight - (marco.height + 40);
+        marco.y = this.stage.stageHeight - (marco.height + 20);
         addChild(marco);
 
         logo = new Logo();
         logo.name = 'logo';
         logo.x = marco.x + marco.width - ((logo.width/2) + 10);
         logo.y = marco.y - 15;
+        logo.buttonMode = true;
+        logo.addEventListener(MouseEvent.CLICK, enlace);
         addChild(logo);
 
         logo_flex = new LogoFlex();
         logo_flex.name = 'logo_flex';
+        logo_flex.buttonMode = true;
+        logo_flex.addEventListener(MouseEvent.CLICK, enlace);
         logo_flex.x = logo.x + (logo_flex.width/2);
         logo_flex.y = marco.y + marco.height + 3;
         addChild(logo_flex);
@@ -58,7 +69,7 @@ public class MainView extends Sprite {
 
         social = new SocialLinksView();
         social.name = 'social';
-        social.x = marco.x - 8;
+        social.x = marco.x;
         social.y = marco.y + marco.height + 6;
         addChild(social);
 
@@ -68,6 +79,20 @@ public class MainView extends Sprite {
         bisel.y = marco.y - (bisel.height/2);
         bisel.width = marco.width + 10;
         addChild(bisel);
+    }
+    
+    
+    private function enlace(e:MouseEvent):void
+    {
+        if(e.currentTarget.name == 'logo_flex')
+        {
+           navigateToURL(new URLRequest(enlace_web), '_blank');
+
+        } else {
+
+           navigateToURL(new URLRequest(enlace_producto), '_blank');
+
+        }
     }
 
 
@@ -84,6 +109,7 @@ public class MainView extends Sprite {
         login_loader = new CargandoLogin();
         login_loader.name = 'login_loader';
         login_loader.alpha = 0;
+        login_loader.visible = false;
         login_loader.fondo.width = marco.width;
         login_loader.fondo.height = marco.height;
         login_loader.texto.x =  (login_loader.fondo.width/2) - (login_loader.texto.width/2);
@@ -145,9 +171,9 @@ public class MainView extends Sprite {
     {
          if(this.getChildByName('marco')){
              marco.width = this.stage.stageWidth - 40;
-             marco.height = this.stage.stageHeight - 100;
+             marco.height = this.stage.stageHeight - 80;
              marco.x = 20;
-             marco.y = this.stage.stageHeight - (marco.height + 40);
+             marco.y = this.stage.stageHeight - (marco.height + 20);
          }
 
          if(this.getChildByName('bisel'))
@@ -177,7 +203,7 @@ public class MainView extends Sprite {
 
          if(this.getChildByName('social'))
          {
-             social.x = marco.x - 8;
+             social.x = marco.x;
              social.y = marco.y + marco.height + 4;
          }
 

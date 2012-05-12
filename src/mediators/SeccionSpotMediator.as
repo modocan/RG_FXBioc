@@ -8,10 +8,14 @@
 package mediators {
 import assets.clases.eventos.PlayerYTBEvent;
 
+import com.hexagonstar.util.debug.Debug;
+
 import events.ControlEvent;
 import events.SpotEvent;
 
 import flash.events.Event;
+import flash.events.TimerEvent;
+import flash.utils.Timer;
 
 import org.robotlegs.mvcs.Mediator;
 
@@ -31,6 +35,7 @@ public class SeccionSpotMediator extends Mediator {
         eventMap.mapListener(vista, PlayerYTBEvent.INIT, init);
         eventMap.mapListener(vista, SpotEvent.ESTADO_PLAY, lanzaPlay);
         eventMap.mapListener(vista, SpotEvent.ESTADO_STOP, lanzaPlay);
+        eventMap.mapListener(eventDispatcher, ControlEvent.APAGAR, apaga);
     }
 
 
@@ -50,6 +55,32 @@ public class SeccionSpotMediator extends Mediator {
             eventDispatcher.dispatchEvent(new SpotEvent(SpotEvent.ESTADO_STOP));
         }
 
+    }
+
+    private function apaga(e:ControlEvent):void
+    {
+        Debug.trace('[EVENTO] -> ' + e.quien, Debug.LEVEL_ERROR);
+        
+        if(e.quien != vista.name)
+        {   
+            vista.destruye();
+            var tim:Timer = new Timer(800, 1);
+            tim.addEventListener(TimerEvent.TIMER, borra);
+            tim.start();
+        }
+
+
+    }
+
+    private function borra(e:TimerEvent):void
+    {
+        Debug.trace('[BORRADO!!!!!!]', Debug.LEVEL_ERROR);
+        
+        if(contextView.getChildByName(vista.name));
+        {
+            contextView.removeChild(contextView.getChildByName(vista.name));
+        }
+        eventDispatcher.dispatchEvent(new SpotEvent(SpotEvent.ESTADO_STOP));
     }
 
 }
