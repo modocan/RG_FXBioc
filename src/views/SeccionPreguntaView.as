@@ -24,12 +24,14 @@ public class SeccionPreguntaView extends Sprite {
     private var login:CajaLoginView;
     private var preguntas:LuminariasView;
     private var slide:SlideView;
+    private var _sub:Boolean = false;
 
-    public function SeccionPreguntaView(_quien:String) {
+    public function SeccionPreguntaView(_quien:String, sub:Boolean = false) {
         this.name = _quien;
         _this = this;
         this.visible = false;
         _this.alpha = 0;
+        _sub = sub;
         this.addEventListener(Event.ADDED_TO_STAGE, init);
 
     }
@@ -59,6 +61,10 @@ public class SeccionPreguntaView extends Sprite {
         login.name = 'login';
         login.x = 50;
         login.y = 130;
+        if(_sub)
+        {
+            login.versionSub(true);
+        }
         login.addEventListener(Event.ADDED_TO_STAGE, aded);
         addChild(login);
 

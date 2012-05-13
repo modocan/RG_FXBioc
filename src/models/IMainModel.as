@@ -24,5 +24,7 @@ public interface IMainModel {
 
     function dameEnlaceBioceramics():String
 
+    function dameReflexiones():String
+
 }
 }

@@ -15,6 +15,7 @@ public class MenuEvent extends Event {
     public static const PINTA_MENU:String = 'MenuEvent.PINTA_MENU';
     public static const CLICK_SOCIAL:String = 'MenuEvent.CLICK_SOCIAL';
     public static const CLICK_MENU:String = 'MenuEvent.CLICK_MENU';
+    public static const SUBMENU:String = 'MenuEvent.SUBMENU';
 
     private var _secciones:Array = new Array();
     private var _quien:String;

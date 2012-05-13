@@ -25,11 +25,15 @@ public class MainView extends Sprite {
     private var login_loader:CargandoLogin;
     private var enlace_web:String;
     private var enlace_producto:String;
+    private var _this:MainView;
+    private var submenu_antes:SubmenuAntesView;
+    private var submenu_durante:SubmenuDuranteView;
 
     public function MainView(web:String, prod:String) {
         this.name = 'marco';
         this.enlace_web = web;
         this.enlace_producto = prod;
+        _this = this;
         this.addEventListener(Event.ADDED_TO_STAGE, init);
     }
 
@@ -148,6 +152,13 @@ public class MainView extends Sprite {
         TweenLite.to(menu, 0.4, {alpha: 0, onComplete:function(){
             menu.visible = false;
         }});
+
+        if(_this.getChildByName('submenu'))
+        {
+           TweenLite.to(_this.getChildByName('submenu'), 0.4, {alpha: 0, onComplete: function(){
+               _this.getChildByName('submenu').visible = false;
+           }});
+        }
     }
 
     public function muestrate():void
@@ -163,6 +174,40 @@ public class MainView extends Sprite {
 
         menu.visible = true;
         TweenLite.to(menu, 0.4, {alpha: 1});
+
+        if(_this.getChildByName('submenu'))
+        {
+            _this.getChildByName('submenu').visible = true;
+            TweenLite.to(_this.getChildByName('submenu'), 0.4, {alpha: 1});
+        }
+    }
+
+
+    public function pintaSubmenu(_quien:String):void
+    {
+        if(_this.getChildByName('submenu'))
+        {
+            _this.removeChild(_this.getChildByName('submenu'));
+        }
+
+        switch(_quien)
+        {
+            case 'antes':
+                submenu_antes = new SubmenuAntesView();
+                submenu_antes.name = 'submenu';
+                submenu_antes.x = marco.x - 5;
+                submenu_antes.y = marco.y + 80;
+                _this.addChild(submenu_antes);
+            break;
+
+            case 'durante':
+                submenu_durante = new SubmenuDuranteView();
+                submenu_durante.name = 'submenu';
+                submenu_durante.x = marco.x - 5;
+                submenu_durante.y = marco.y + 80;
+                _this.addChild(submenu_durante);
+                break;
+        }
     }
 
 

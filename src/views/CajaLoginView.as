@@ -26,10 +26,16 @@ public class CajaLoginView extends Sprite {
     private var caja_texto:CajaTextoView;
     private var caja_respuesta:RespuestaView;
     private var cargando:CargandoMini;
+    private var _sub:Boolean = false;
 
     public function CajaLoginView() {
         _this = this;
         this.addEventListener(Event.ADDED_TO_STAGE, init);
+    }
+
+    public function versionSub(_valor:Boolean):void
+    {
+        _sub = _valor;
     }
 
     private function init(e:Event):void
@@ -38,7 +44,10 @@ public class CajaLoginView extends Sprite {
 
         titulo = new TituloSeccionPreguntas();
         titulo.name = 'titulo';
-        titulo
+        if(_sub)
+        {
+           titulo.visible = false;
+        }
         titulo.addEventListener(Event.ADDED_TO_STAGE, pintaLogin);
         addChild(titulo);
     }
@@ -46,6 +55,10 @@ public class CajaLoginView extends Sprite {
 
     private function pintaLogin(e:Event):void
     {
+        if(_sub)
+        {
+            titulo.visible = false;
+        }
 
         var evento:PreguntasEvent;
         titulo.removeEventListener(Event.ADDED_TO_STAGE, pintaLogin);
@@ -53,6 +66,10 @@ public class CajaLoginView extends Sprite {
         login = new CajaLogin();
         login.x = (titulo.width/2) - (login.width/2);
         login.y = titulo.height + 15;
+        if(_sub)
+        {
+            login.visible = false;
+        }
         login.fb.buttonMode = login.twt.buttonMode = true;
         login.fb.addEventListener(MouseEvent.CLICK, function(e:MouseEvent){
             evento = new PreguntasEvent(PreguntasEvent.LOGIN);
@@ -106,8 +123,12 @@ public class CajaLoginView extends Sprite {
 
     public function apareceLogin():void
     {
-        login.visible = true;
-        TweenLite.to(login,  0.4, {alpha: 1});
+        if(!_sub)
+        {
+            login.visible = true;
+            TweenLite.to(login,  0.4, {alpha: 1});
+        }
+
     }
 
 

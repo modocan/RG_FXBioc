@@ -30,6 +30,7 @@ public class MainMediator extends Mediator {
         eventMap.mapListener(eventDispatcher, ControlEvent.FIN_LOADER_LOGIN, borraLoaderLogin);
         eventMap.mapListener(eventDispatcher, SpotEvent.ESTADO_PLAY, oculta);
         eventMap.mapListener(eventDispatcher, SpotEvent.ESTADO_STOP, muestrate);
+        eventMap.mapListener(eventDispatcher, MenuEvent.SUBMENU, submenu);
     }
 
 
@@ -56,6 +57,11 @@ public class MainMediator extends Mediator {
     private function muestrate(e:SpotEvent):void
     {
         vista.muestrate();
+    }
+
+    private function submenu(e:MenuEvent):void
+    {
+        vista.pintaSubmenu(e.quien);
     }
 
 

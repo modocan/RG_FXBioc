@@ -20,10 +20,12 @@ public class SeccionRespondeView extends  Sprite {
     private var contenedor:ContenedorElegidosView;
     private var cartel:CajaTexto;
     private var video:SeccionSpotView;
+    private var _sub:Boolean = false;
 
-    public function SeccionRespondeView(param:String) {
+    public function SeccionRespondeView(param:String, sub:Boolean = false) {
         this.name = param;
         _this = this;
+        _sub = sub;
 
         this.alpha = 0;
         this.visible = false;
@@ -52,7 +54,13 @@ public class SeccionRespondeView extends  Sprite {
 
             titulo = new TituloResponde();
             titulo.x = 40;
-            titulo.y = 140;
+            if(!_sub)
+            {
+                titulo.y = 140;
+            } else {
+                titulo.y = 255;
+            }
+
             addChild(titulo);
 
             TweenLite.to(_this, 0.4, {alpha: 1});

@@ -49,6 +49,10 @@ public class CambiaSeccionCommand extends Command {
                 contextView.addChild(new SeccionPreguntaView(ev.quien));
                 break;
 
+            case 'habla':
+                contextView.addChild(new SeccionPreguntaView(ev.quien, true));
+                break;
+
             case 'WELLNESS BIOCERAMICS ®':
                 contextView.addChild(new SeccionProductoView(ev.quien, modelo.dameVideoProducto(), modelo.dameEnlaceProducto()));
                 break;
@@ -57,8 +61,51 @@ public class CambiaSeccionCommand extends Command {
                 contextView.addChild(new SeccionSpotView(ev.quien, modelo.dameVideoSpot()));
                 break;
 
+            case 'spot':
+                contextView.addChild(new SeccionSpotView(ev.quien, modelo.dameVideoSpot()));
+                break;
+
+            case 'reflexiones':
+                    trace('entro en reflexiones');
+                contextView.addChild(new SeccionSpotView(ev.quien, modelo.dameReflexiones()));
+                break;
+
+
             case 'CONTADOR RESPONDE':
                 contextView.addChild(new SeccionRespondeView(ev.quien));
+                break;
+
+
+            case 'momentos':
+                contextView.addChild(new SeccionRespondeView('RESPONDE_SUB', true));
+                break;
+
+
+            case 'ANTES DE LA CARRERA':
+                if(contextView.getChildByName('INICIO')){
+                    Debug.trace('ya estaba', Debug.LEVEL_ERROR);
+                    var mi_evento:InicioEvent = new InicioEvent(InicioEvent.ABRIR);
+                    mi_evento.quien = 'INICIO';
+                    eventDispatcher.dispatchEvent(mi_evento);
+                }  else {
+
+                    contextView.addChild(new SeccionInicioView(ev.quien));
+
+                }
+
+                var evento:MenuEvent = new MenuEvent(MenuEvent.SUBMENU);
+                evento.quien = 'antes';
+                eventDispatcher.dispatchEvent(evento);
+
+                break;
+
+                case 'EL DÍA DE LA CARRERA':
+                    contextView.addChild(new SeccionRespondeView('RESPONDE_SUB', true));
+
+                    var evento:MenuEvent = new MenuEvent(MenuEvent.SUBMENU);
+                    evento.quien = 'durante';
+                    eventDispatcher.dispatchEvent(evento);
+
                 break;
 
             case 'INICIO':

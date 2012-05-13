@@ -33,10 +33,11 @@ public class FBConnection extends Actor implements IFBConnection {
     public function FBConnection() {
         super();
 
-        Security.loadPolicyFile('http://api.facebook.com/crossdomain.xml');
-        Security.loadPolicyFile('http://profile.ak.fbcdn.net/crossdomain.xml');
+        Security.loadPolicyFile('https://api.facebook.com/crossdomain.xml');
+        Security.loadPolicyFile('https://profile.ak.fbcdn.net/crossdomain.xml');
         Security.allowDomain('http://profile.ak.fbcdn.net');
         Security.allowInsecureDomain('http://profile.ak.fbcdn.net');
+        Security.loadPolicyFile('http://s.ytimg.com/crossdomain.xml');
 
     }
 

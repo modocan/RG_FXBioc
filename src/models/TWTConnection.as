@@ -33,6 +33,7 @@ public class TWTConnection extends Actor implements ITWTConnection {
     public function init():void
     {
         Security.loadPolicyFile('http://a0.twimg.com/crossdomain.xml');
+        Security.loadPolicyFile('http://s.ytimg.com/crossdomain.xml');
 
         eventDispatcher.dispatchEvent(new PreguntasEvent(PreguntasEvent.PIN_TWT));
 

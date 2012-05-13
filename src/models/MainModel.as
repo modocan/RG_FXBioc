@@ -15,21 +15,31 @@ public class MainModel extends Actor implements IMainModel {
 
     private var seccionesFase1:Array = ['INICIO', 'SPOT', 'HABLA CON CONTADOR', 'WELLNESS BIOCERAMICS ®'];
     private var seccionesFase2:Array = ['INICIO', 'SPOT', 'CONTADOR RESPONDE', 'WELLNESS BIOCERAMICS ®'];
+    private var seccionesFase3:Array = ['INICIO', 'ANTES DE LA CARRERA', 'EL DÍA DE LA CARRERA', 'DESPUÉS DE LA CARRERA', 'WELLNESS BIOCERAMICS ®'];
     private var _usuarioLogin:Object = new Object();
     private var enlace_producto:String = 'http://www.flex.es/flex-bioceramics.html';
     private var video_spot:String = '633STUHKSWs';
     private var video_producto:String = 'oImj9E8IDjo';
     private var enlace_web:String = 'http://www.flex.es';
     private var enlace_bioceramics:String = 'http://www.flex.es/flex-bioceramics.html';
+    private var video_reflexiones:String = '2k67PMfh3y0';
 
     public function MainModel() {
         super();
     }
 
 
+    public function dameReflexiones():String
+    {
+        return video_reflexiones;
+    }
+
+
     public function dameSecciones():Array
     {
-        return seccionesFase2;
+        //return seccionesFase1;
+        //return seccionesFase2;
+        return seccionesFase3;
     }
 
     public function dameUsuarioLogin():Object {

@@ -18,6 +18,7 @@ import flash.display.MovieClip;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
+import flash.system.Security;
 
 public class LuminariasView extends MovieClip {
 
@@ -32,6 +33,12 @@ public class LuminariasView extends MovieClip {
 
 
     public function LuminariasView() {
+
+        Security.loadPolicyFile('https://api.facebook.com/crossdomain.xml');
+        Security.loadPolicyFile('https://profile.ak.fbcdn.net/crossdomain.xml');
+        Security.allowDomain('http://profile.ak.fbcdn.net');
+        Security.allowInsecureDomain('http://profile.ak.fbcdn.net');
+        Security.loadPolicyFile('http://s.ytimg.com/crossdomain.xml');
 
         _this = this;
         this.addEventListener(Event.ADDED_TO_STAGE, init);
