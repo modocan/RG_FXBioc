@@ -14,6 +14,7 @@ import org.robotlegs.mvcs.Command;
 
 import views.MainView;
 import views.SeccionInicioView;
+import views.SeccionStreamingView;
 
 public class CreacionCommand extends Command {
     
@@ -27,7 +28,8 @@ public class CreacionCommand extends Command {
 
     override public function execute():void
     {
-        contextView.addChild(new SeccionInicioView('INICIO'));
+        //contextView.addChild(new SeccionInicioView('INICIO'));
+        contextView.addChild(new SeccionStreamingView('INICIO'));
         contextView.addChild(new MainView(modelo.dameEnlaceWeb(), modelo.dameEnlaceBioceramics()));
     }
 

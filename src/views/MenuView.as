@@ -41,7 +41,7 @@ public class MenuView extends Sprite {
 
     public function MenuView() {
           _this = this;
-          cargarSonido();
+          //cargarSonido();
     }
 
 
@@ -125,10 +125,10 @@ public class MenuView extends Sprite {
                isPlaying = false;
            }
         } else {
-           if(!isPlaying){
+          /* if(!isPlaying){
                canal = sonido.play(pausePoint);
                isPlaying = true;
-           }
+           }*/
         }
         _this.dispatchEvent(evento);
 
