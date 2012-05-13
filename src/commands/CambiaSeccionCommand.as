@@ -24,7 +24,6 @@ import views.SeccionInicioView;
 
 import views.SeccionPreguntaView;
 import views.SeccionProductoView;
-import views.SeccionRespondeView;
 import views.SeccionSpotView;
 import views.SeccionStreamingView;
 
@@ -59,9 +58,6 @@ public class CambiaSeccionCommand extends Command {
                 contextView.addChild(new SeccionSpotView(ev.quien, modelo.dameVideoSpot()));
                 break;
 
-            case 'CONTADOR RESPONDE':
-                contextView.addChild(new SeccionRespondeView(ev.quien));
-                break;
 
             case 'INICIO':
 

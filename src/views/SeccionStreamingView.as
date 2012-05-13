@@ -10,6 +10,8 @@ package views {
 
 import com.hexagonstar.util.debug.Debug;
 
+import events.StreamingEvent;
+
 import flash.display.Sprite;
 import flash.display.StageAlign;
 import flash.display.StageScaleMode;
@@ -43,23 +45,31 @@ public class SeccionStreamingView extends Sprite{
         private var _conexion:NetConnection;
         private var _stream:NetStream;
         private var _videoURL:String = "rtmp://77.73.82.193/oflaDemo";
-        private var _list_videos:Array = new Array('video_1.flv','video_2.flv','test_video_100.flv','test_video_100.flv','test_video_100.flv','test_video_100.flv','test_video_100.flv');
+        private var _list_videos:Array = new Array('video_1.flv','video_2.flv','video_3.flv','video_4.flv','video_5.flv','video_6.flv','video_7.flv');
 
         // Vistas
         private var _loading:LoadingView;
         private var _km:KmView;
         private var _recorrido:RecorridoView;
+        private var _reflexiones:ReflexionesView;
+        private var _crono:CronoView;
+        /////////
 
         private var _ancho:Number = 1000;
         private var _alto:Number = 564;
 
         // POS VIDEO
-        private const TIME_TOTAL:int = 25200;   // TIEMPO TOTAL DE TODOS LOS VIDEOS
+        private const TIME_TOTAL:int = 25200;   // TIEMPO TOTAL EN SEGUNDOS DE TODOS LOS VIDEOS
         private var _time_total:int;
         private var _seek:int;
         private var _seg:int = 3600;
         private var _total:int;
         private var _video_actual:int;
+
+        // CRONO
+        private var _dia:String;
+        private var _hora:String;
+        private var _minuto:String;
 
         public function SeccionStreamingView(param:String) {
 
@@ -89,20 +99,50 @@ public class SeccionStreamingView extends Sprite{
         private function respuesta(datos:Object):void
         {
             Debug.inspect(datos);
-            Debug.trace('Tiempo: '+datos);
-            // Defino el vídeo a cargar
-            Debug.trace('Video: '+String(Math.floor(int(datos)/_seg)));
-            _video_actual = Math.floor(int(datos)/_seg);
-            _seek = int(datos) - (_video_actual * _seg);
-            Debug.trace('SEEK: '+_seek);
-            if(_video_actual > _list_videos.length){
-                  // RETRANSMISION ACABADA
-            }
-            initVideo();
+            if(!(datos is Number)){
+                Debug.trace('QUEDA POR LLEGAR');
+                var _res:Array;
+                _res = datos.date.split(' ');
+                var _fecha:Array;
+                _fecha = _res[0].split('-');
+                var _hora:Array;
+                _hora = _res[1].split(':');
+                _crono = new CronoView();
+                _crono.addEventListener(StreamingEvent.INIT_VIDEO,initVideo);
+                _crono.startCrono(_fecha[0],_fecha[2],_fecha[1],_hora[0],_hora[1]);
+                addChild(_crono);
+                _this.visible = true;
+                TweenMax.to(_this, 1, {alpha: 1});
+            } else {
+                // Defino el vídeo a cargar
+                _video_actual = Math.floor(int(datos)/_seg);
+                _seek = int(datos) - (_video_actual * _seg);
+                Debug.trace('video actual: '+_video_actual);
+                Debug.trace('videos: '+_list_videos.length);
+                if(_video_actual > _list_videos.length){
+                    // RETRANSMISION ACABADA
+                    finalVideo();
+                    _this.visible = true;
+                    TweenMax.to(_this, 1, {alpha: 1});
+                } else {
+                   initVideo();
+                }
 
+            }
         }
 
-        private function initVideo(){
+        private function finalVideo(){
+            _reflexiones = new ReflexionesView();
+            addChild(_reflexiones);
+        }
+
+        public function reinicio(){
+            _this.alpha = 0;
+            _this.visible = true;
+            TweenMax.to(_this, 0.7, {alpha: 1});
+        }
+
+        private function initVideo(e:StreamingEvent = null){
 
             _conexion = new NetConnection();
             _conexion.addEventListener(NetStatusEvent.NET_STATUS,estadoConexion);
@@ -173,6 +213,8 @@ public class SeccionStreamingView extends Sprite{
             _this.addChild(_km);
             _loading = new LoadingView();
             addChild(_loading);
+            _recorrido.total = TIME_TOTAL;
+            _km.total = TIME_TOTAL;
             _this.visible = true;
             TweenMax.to(_this, 1, {alpha: 1});
 
@@ -183,11 +225,12 @@ public class SeccionStreamingView extends Sprite{
         // Función encargada de cambiar de video
         public function onPlayStatus(info:Object):void {
             Debug.trace('FIN DEL VIDEO');
-            //this.removeEventListener(Event.ENTER_FRAME, actualizar);
             _video_actual += 1;
-
             if(_video_actual > _list_videos.length){
                 // RETRANSMISION ACABADA
+                Debug.trace('CERRAMOS VIDEO');
+                this.removeEventListener(Event.ENTER_FRAME, actualizar);
+                finalVideo();
             } else {
                 Debug.trace('muestro Login');
                 _seek = 0;
@@ -197,8 +240,6 @@ public class SeccionStreamingView extends Sprite{
 
         public function onMetaData(info:Object):void
         {
-            _recorrido.total = TIME_TOTAL;
-            _km.total = TIME_TOTAL;
             // _recorrido.total = info.duration;
             // _km.total = info.duration;
             trace(((((((("metadata: duration=" + info.duration) + " width=") + info.width) + " height=") + info.height) + " framerate=") + info.framerate));
@@ -215,9 +256,15 @@ public class SeccionStreamingView extends Sprite{
 
         private function actualizar(e:Event){
 
-           // Debug.trace(_stream.time);
-            _recorrido.actualizarPos(int(_stream.time * (_video_actual+1)));
-            _km.actualizar(int(_stream.time * (_video_actual+1)));
+            var _tiempo:int = int(_stream.time + (_seg * (_video_actual)));
+            if(_tiempo == TIME_TOTAL){
+                this.removeEventListener(Event.ENTER_FRAME, actualizar);
+                finalVideo();
+            } else {
+                _recorrido.actualizarPos(_tiempo);
+                _km.actualizar(_tiempo);
+            }
+
         }
 
         private function ajusta(e:Event = null)

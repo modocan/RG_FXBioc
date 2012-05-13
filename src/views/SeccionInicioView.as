@@ -41,7 +41,7 @@ public class SeccionInicioView extends Sprite{
     private function init(e:Event):void
     {
         this.removeEventListener(Event.ADDED_TO_STAGE, init);
-
+         Debug.trace('CARGO INICIO');
         _tramo = new GestorTramos();
         _tramo.addEventListener(InicioEvent.TWTPIN, creaPin)  ;
         _copy = new copy_inicio();

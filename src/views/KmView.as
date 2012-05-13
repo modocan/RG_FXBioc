@@ -46,7 +46,7 @@ public class KmView extends MovieClip{
 
         public function actualizar(_valor:int){
 
-            _porcentaje = Math.floor((_valor*174)/_total);
+            _porcentaje = Math.floor((_valor * 174)/_total);
             _km.km_txt.text = String(_porcentaje);
         }
 
