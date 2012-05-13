@@ -45,6 +45,7 @@ import mediators.SeccionRespondeMediator;
 import mediators.SeccionSpotMediator;
 import mediators.SlideMediator;
 import mediators.SocialLinksMediator;
+import mediators.StreamingMediator;
 import mediators.SubmenuAntesMediator;
 import mediators.SubmenuDuranteMediator;
 import mediators.VideoProductoMediator;
@@ -78,6 +79,7 @@ import views.SeccionPreguntaView;
 import views.SeccionProductoView;
 import views.SeccionRespondeView;
 import views.SeccionSpotView;
+import views.SeccionStreamingView;
 import views.SlideView;
 import views.SocialLinksView;
 import views.SubmenuAntesView;
@@ -146,6 +148,7 @@ public class MainContext extends Context {
         mediatorMap.mapView(ContenedorElegidosView, ContenedorElegidosMediator);
         mediatorMap.mapView(SubmenuAntesView, SubmenuAntesMediator);
         mediatorMap.mapView(SubmenuDuranteView, SubmenuDuranteMediator);
+        mediatorMap.mapView(SeccionStreamingView, StreamingMediator);
     }
 
 

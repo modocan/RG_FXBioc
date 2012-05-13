@@ -34,8 +34,12 @@ public class LuminariasView extends MovieClip {
 
     public function LuminariasView() {
 
-        Security.loadPolicyFile('https://api.facebook.com/crossdomain.xml');
-        Security.loadPolicyFile('https://profile.ak.fbcdn.net/crossdomain.xml');
+        Security.loadPolicyFile('http://api.facebook.com/crossdomain.xml');
+        Security.loadPolicyFile('http://a0.twimg.com/crossdomain.xml');
+        Security.loadPolicyFile('http://a1.twimg.com/crossdomain.xml');
+        Security.loadPolicyFile('http://a2.twimg.com/crossdomain.xml');
+        Security.loadPolicyFile('http://a3.twimg.com/crossdomain.xml');
+        Security.loadPolicyFile('http://profile.ak.fbcdn.net/crossdomain.xml');
         Security.allowDomain('http://profile.ak.fbcdn.net');
         Security.allowInsecureDomain('http://profile.ak.fbcdn.net');
         Security.loadPolicyFile('http://s.ytimg.com/crossdomain.xml');

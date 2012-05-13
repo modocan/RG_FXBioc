@@ -15,6 +15,7 @@ import flash.display.MovieClip;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.net.URLRequest;
+import flash.system.Security;
 
 public class Cara_User extends Sprite {
 
@@ -27,6 +28,16 @@ public class Cara_User extends Sprite {
     public function Cara_User() {
         super();
         _this = this;
+
+        Security.loadPolicyFile('http://api.facebook.com/crossdomain.xml');
+        Security.loadPolicyFile('http://a0.twimg.com/crossdomain.xml');
+        Security.loadPolicyFile('http://a1.twimg.com/crossdomain.xml');
+        Security.loadPolicyFile('http://a2.twimg.com/crossdomain.xml');
+        Security.loadPolicyFile('http://a3.twimg.com/crossdomain.xml');
+        Security.loadPolicyFile('http://profile.ak.fbcdn.net/crossdomain.xml');
+        Security.allowDomain('http://profile.ak.fbcdn.net');
+        Security.allowInsecureDomain('http://profile.ak.fbcdn.net');
+        Security.loadPolicyFile('http://s.ytimg.com/crossdomain.xml');
     }
 
 

@@ -39,7 +39,6 @@ public class StreamingMediator extends Mediator{
     }
 
     private function visible(e:InicioEvent){
-        Debug.trace('mediator', Debug.LEVEL_ERROR);
         contextView.addChild(vista);
         var evento:ControlEvent = new ControlEvent(ControlEvent.SECCION);
         evento.quien = vista.name;

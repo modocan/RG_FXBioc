@@ -137,6 +137,7 @@ public class SeccionStreamingView extends Sprite{
         }
 
         public function reinicio(){
+            trace('[REINICIA PUTAAAAAA]');
             _this.alpha = 0;
             _this.visible = true;
             TweenMax.to(_this, 0.7, {alpha: 1});

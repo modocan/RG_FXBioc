@@ -25,6 +25,7 @@ import views.SeccionPreguntaView;
 import views.SeccionProductoView;
 import views.SeccionRespondeView;
 import views.SeccionSpotView;
+import views.SeccionStreamingView;
 
 public class CambiaSeccionCommand extends Command {
 
@@ -117,8 +118,8 @@ public class CambiaSeccionCommand extends Command {
                     eventDispatcher.dispatchEvent(mi_evento);
                 }  else {
 
-                    contextView.addChild(new SeccionInicioView(ev.quien));
-
+                    //contextView.addChild(new SeccionInicioView(ev.quien));
+                    contextView.addChild(new SeccionStreamingView(ev.quien));
                 }
                 break;
         }

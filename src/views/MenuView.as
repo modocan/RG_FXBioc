@@ -115,22 +115,23 @@ public class MenuView extends Sprite {
 
         var evento:MenuEvent = new MenuEvent(MenuEvent.CLICK_MENU);
         evento.quien = e.currentTarget.name;
+        _this.dispatchEvent(evento);
        // CONTROLO EL SONIDO
         
        Debug.trace('SECCION: '+evento.quien);
-       if(evento.quien == 'SPOT' || evento.quien == 'WELLNESS BIOCERAMICS ®'){
+        /*if(evento.quien == 'SPOT' || evento.quien == 'WELLNESS BIOCERAMICS ®'){
            if(isPlaying){
                pausePoint =  canal.position;
                canal.stop();
                isPlaying = false;
            }
         } else {
-          /* if(!isPlaying){
+           if(!isPlaying){
                canal = sonido.play(pausePoint);
                isPlaying = true;
-           }*/
-        }
-        _this.dispatchEvent(evento);
+           }
+        }*/
+
 
         mueveBici(e.currentTarget.name);
     }

@@ -29,7 +29,16 @@ public class ItemLuminaria extends MovieClip {
 
     public function ItemLuminaria() {
 
+        Security.loadPolicyFile('http://api.facebook.com/crossdomain.xml');
         Security.loadPolicyFile('http://a0.twimg.com/crossdomain.xml');
+        Security.loadPolicyFile('http://a1.twimg.com/crossdomain.xml');
+        Security.loadPolicyFile('http://a2.twimg.com/crossdomain.xml');
+        Security.loadPolicyFile('http://a3.twimg.com/crossdomain.xml');
+        Security.loadPolicyFile('http://profile.ak.fbcdn.net/crossdomain.xml');
+        Security.allowDomain('http://profile.ak.fbcdn.net');
+        Security.allowInsecureDomain('http://profile.ak.fbcdn.net');
+        Security.loadPolicyFile('http://s.ytimg.com/crossdomain.xml');
+
 
         //this.buttonMode = true;
         _this = this;
